@@ -1,0 +1,28 @@
+{
+  "name": "proyect",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node ./bin/www"
+  },
+  "dependencies": {
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "express": "~4.16.1",
+    "http-errors": "~1.6.3",
+    "morgan": "~1.9.1",
+    "pug": "2.0.0-beta11"
+  },
+  "description": "proyecto final de seminario",
+  "main": "app.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cabana1423/proyect.git"
+  },
+  "author": "Pedro V. Cabana Bautista",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/cabana1423/proyect/issues"
+  },
+  "homepage": "https://github.com/cabana1423/proyect#readme"
+}
