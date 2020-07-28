@@ -1,5 +1,5 @@
 var mongoose = require("mongoose");
-mongoose.connect("mongodb://172.23.0.2:27017/musicdatabase", {useNewUrlParser: true});
+mongoose.connect("mongodb://172.23.0.2:27017/proyect_database", {useNewUrlParser: true});
 var db  = mongoose.connection;
 db.on("error", () => {
     console.log("ERRO no se puede conectar al servidor");

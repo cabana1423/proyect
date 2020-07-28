@@ -1,36 +1,36 @@
 var mongoose = require("./connect");
 var REST_SCHEMA = new mongoose.Schema({
-    nombre: {
+    nombre_rest: {
         type: String,
-        required: [true, "El nickname es necesario"]
+        required: [true, "El Nombre es necesario"]
     },
     nit: {
         type: Number,
-        required: [true, "La edad es necesaria"]
+        required: [true, "El NIT es necesaria"]
     },
     propietario: {
         type: String,
-        required: [true, "La edad es necesaria"]
+        required: [true, "El nombre del propietario es necesario"]
     },
     calle: {
         type: String,
-        required: [true, "La edad es necesaria"]
+        required: [true, "La direccion es necesaria"]
     },
     telefono: {
         type: Number,
-        required: [true, "La edad es necesaria"]
+        required: [true, "El telefono es necesario"]
     },
-    longitud: {
+    /*longitud: {
         type: String, 
-        required: [true, "la ruta de la imagen es necesaria"]
+        required: [true, "falta log"]
     },
     latitud: {
         type: String, 
-        required: [true, "la ruta de la imagen es necesaria"]
+        required: [true, "falta lat"]
     },
     logo: {
         type: String, 
-    },
+    },*/
     fecha_reg: {
         type: Date,
         default: new Date()
