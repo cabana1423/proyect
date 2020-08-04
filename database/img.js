@@ -1,0 +1,17 @@
+var mongoose = require("./connect");
+var IMGSCHEMA = new mongoose.Schema({
+    nombre: {
+        type: String,
+        required: [true, "El Nombre es necesario"]
+    },
+    phatfile: {
+        type: String,
+        required: [true, "El la ruta del archivo es necesario"]
+    },
+    fecha_reg: {
+        type: Date,
+        default: new Date()
+    }
+});
+var IMG = mongoose.model("user", IMGSCHEMA);
+module.exports = IMG;
