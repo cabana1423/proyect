@@ -1,6 +1,10 @@
 var express = require("express");
 var router = express.Router();
+var fileUpload = require("express-fileupload")
 var REST = require("../database/restaurant");
+var USER = require("../database/user");
+
+
 //GET mostrar
 router.get("/rest", (req, res) => {
     var filter={};
@@ -32,7 +36,7 @@ router.get("/rest", (req, res) => {
     });
 });
 // POST registrar
-router.post("/rest", (req, res) => {
+router.post("/rest", async(req, res) => {
     var userRest = req.body;
     var userDB = new REST(userRest);
     userDB.save((err, docs) => {
@@ -48,7 +52,7 @@ router.post("/rest", (req, res) => {
         }
         res.status(200).json(docs);
         return;
-    })
+    });
 });
 //PUT actualizar
 router.put("/rest", async(req, res) => {

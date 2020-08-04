@@ -35,11 +35,15 @@ var REST_SCHEMA = new mongoose.Schema({
         type: Date,
         default: new Date()
     },
-    foto_lugar: {
-        type: String, 
-        default: "No IMAGE",
-        required: [true, "la ruta de la imagen es necesaria"]
-    }
+    foto_lugar: [{
+        pathfile: {
+            type: String,
+            required: [true, "la ruta de la imagen es necesaria"]
+        },
+        nombre:{
+            type:String
+        }
+    }]
 });
 var REST = mongoose.model("restaurant", REST_SCHEMA);
 module.exports = REST;
