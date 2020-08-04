@@ -9,8 +9,8 @@ router.post("/user", async(req, res) => {
       res.status(300).json({msn: "El password es necesario pra continuar con el registro"});
       return;
   }
-  if (userRest.password.length < 6) {
-      res.status(300).json({msn: "Es demasiado corto"});
+  if ((userRest.password.length < 6)) {
+      res.status(300).json({msn: "passwword debe tener almenos 6 caracteres"});
       return;
   }
   if (!/[A-Z]+/.test(userRest.password)) {
@@ -38,5 +38,22 @@ router.post("/user", async(req, res) => {
       res.status(200).json(docs);
       return;
   });
+});
+router.post("/login", async(req, res) => {
+    var body = req.body;
+    if (body.email == null) {
+        res.status(300).json({msn: "El email es necesario"});
+             return;
+    }
+    if (body.password == null) {
+        res.status(300).json({msn: "El password es necesario"});
+        return;
+    }
+    var results = await USER.find({email: body.email, password: sha1(body.password)});
+    if (results.length == 1) {
+        res.status(200).json({msn: "Bienvenido al sistema " + body.email + " :) "});
+        return;
+    }
+    res.status(200).json({msn: "Credenciales incorrectas"});
 });
 module.exports = router;
