@@ -1,10 +1,15 @@
 var express = require("express");
 var router = express.Router();
 var fileUpload = require("express-fileupload")
+var sha1 = require("sha1");
 var REST = require("../database/restaurant");
 var USER = require("../database/user");
+var IMG = require("../database/img");
 
-
+//tamaño imagen
+router.use(fileUpload({
+    fileSize: 10 * 1024 * 1024
+}));
 //GET mostrar
 router.get("/rest", (req, res) => {
     var filter={};
@@ -79,20 +84,6 @@ router.put("/rest", async(req, res) => {
     });
 
 });
-//PATCH UPDATE
-router.patch("/rest", (req, res) => {
-    if (req.query.id == null) {
-        res.status(300).json({
-        msn: "no existe id"
-    });
-    return;
-    }
-    var id = req.query.id;
-    var params = req.body;
-    REST.findOneAndUpdate({_id: id}, params, (err, docs) => {
-        res.status(200).json(docs);
-    });
-});
 //DELETE 
 router.delete("/rest", (req, res) => {
     var params = req.query;
@@ -106,6 +97,35 @@ router.delete("/rest", (req, res) => {
              return;
          } 
          res.status(200).json(docs);
+    });
+});
+//imagen de restaurante
+router.post("/sendimg", (req, res) => {
+    var img = req.files.file;
+    var path = __dirname.replace(/\/routes/g, "/img");
+    var date = new Date();
+    var sing  = sha1(date.toString()).substr(1, 5);
+    var totalpath = path + "/" + sing + "_" + img.name.replace(/\s/g,"_");
+    img.mv(totalpath, async(err) => {
+        if (err) {
+            return res.status(300).send({msn : "Error al escribir el archivo en el disco duro"});
+        }
+        //REVISAR METADATOS
+        console.log(totalpath);
+        console.log(img);
+        var obj = {};
+        if (img.name != null) {
+            obj["nombre"] = img.name;
+        }
+        obj["pathfile"] = totalpath;
+        var image = new IMG(obj);
+        image.save((err, docs) => {
+            if (err) {
+                res.status(500).json({msn: "ERROR  AL GUARDAR INFORMACION "})
+                return;
+            }
+            res.status(200).json({name: img.name});
+        });
     });
 });
 module.exports = router;

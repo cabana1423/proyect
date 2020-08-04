@@ -4,7 +4,7 @@ var IMGSCHEMA = new mongoose.Schema({
         type: String,
         required: [true, "El Nombre es necesario"]
     },
-    phatfile: {
+    pathfile: {
         type: String,
         required: [true, "El la ruta del archivo es necesario"]
     },
@@ -13,5 +13,5 @@ var IMGSCHEMA = new mongoose.Schema({
         default: new Date()
     }
 });
-var IMG = mongoose.model("user", IMGSCHEMA);
+var IMG = mongoose.model("images", IMGSCHEMA);
 module.exports = IMG;
