@@ -10,7 +10,7 @@ var REST_SCHEMA = new mongoose.Schema({
     },
     propietario: {
         type: String,
-        required: [true, "El nombre del propietario es necesario"]
+        required: [true, "propietario es necesario"]
     },
     calle: {
         type: String,
@@ -35,15 +35,10 @@ var REST_SCHEMA = new mongoose.Schema({
         type: Date,
         default: new Date()
     },
-    foto_lugar: [{
-        pathfile: {
-            type: String,
-            required: [true, "la ruta de la imagen es necesaria"]
-        },
-        nombre:{
-            type:String
-        }
-    }]
+    foto_lugar: {
+        type:String,
+        default: []
+    }
 });
 var REST = mongoose.model("restaurant", REST_SCHEMA);
 module.exports = REST;

@@ -11,6 +11,10 @@ var IMGSCHEMA = new mongoose.Schema({
     fecha_reg: {
         type: Date,
         default: new Date()
+    },
+    id_user_up:{
+        type:String,
+        required:[true, "el usuario es nesesario"]
     }
 });
 var IMG = mongoose.model("images", IMGSCHEMA);

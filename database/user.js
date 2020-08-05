@@ -22,6 +22,10 @@ var USERSCHEMA = new mongoose.Schema({
     fecha_reg: {
         type: Date,
         default: new Date()
+    },
+    rest_regis: {
+        type:Array,
+        default: []
     }
 });
 var USER = mongoose.model("user", USERSCHEMA);

@@ -67,6 +67,9 @@ router.put("/rest", async(req, res) => {
         res.status(300).json({msn: "El parámetro ID es necesario"});
         return;
     }
+    else{
+
+    }
     var allowkeylist = ["nombre_rest", "nit", "propietario","calle","telefono"];
     var keys = Object.keys(bodydata);
     var updateobjectdata = {};
@@ -100,7 +103,21 @@ router.delete("/rest", (req, res) => {
     });
 });
 //imagen de restaurante
-router.post("/sendimg", (req, res) => {
+router.post("/sendimg", async(req, res) => {
+    var params = req.query;
+    if (params.id == null) {
+        res.status(300).json({msn: "El id es necesario"});
+             return;
+    }
+    var id = params.id;
+    var docs = await USER.find({_id: id});
+    if (docs.length > 0) {
+        var idusario = docs[0].id;
+    }else{
+        res.status(300).json({msn: "El usuario no existe"});
+        return;
+    }
+    console.log(idusario);
     var img = req.files.file;
     var path = __dirname.replace(/\/routes/g, "/img");
     var date = new Date();
@@ -111,13 +128,14 @@ router.post("/sendimg", (req, res) => {
             return res.status(300).send({msn : "Error al escribir el archivo en el disco duro"});
         }
         //REVISAR METADATOS
-        console.log(totalpath);
-        console.log(img);
+        //console.log(totalpath);
+        //console.log(img);
         var obj = {};
         if (img.name != null) {
             obj["nombre"] = img.name;
+            obj["pathfile"] = totalpath;
+            obj["id_user_up"] = idusario;
         }
-        obj["pathfile"] = totalpath;
         var image = new IMG(obj);
         image.save((err, docs) => {
             if (err) {
