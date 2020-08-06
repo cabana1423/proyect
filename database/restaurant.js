@@ -36,7 +36,7 @@ var REST_SCHEMA = new mongoose.Schema({
         default: new Date()
     },
     foto_lugar: {
-        type:String,
+        type:Array,
         default: []
     }
 });

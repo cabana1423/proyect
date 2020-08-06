@@ -28,10 +28,10 @@ router.get("/rest", (req, res) => {
         var number = parseInt(data[1]);
         order[data[0]] = number;
     }
-    REST.find(filter).
+    var restDB=REST.find(filter).
     select(select).
-    sort(order).
-    exec((err, docs)=>{
+    sort(order);
+    restDB.exec((err, docs)=>{
         if(err){
             res.status(500).json({msn: "Error en la coneccion del servidor"});
             return;
@@ -42,8 +42,23 @@ router.get("/rest", (req, res) => {
 });
 // POST registrar
 router.post("/rest", async(req, res) => {
-    var userRest = req.body;
-    var userDB = new REST(userRest);
+    //buscamos img de user
+    var params = req.query;
+    if (params.id == null) {
+        res.status(300).json({msn: "El id es necesario"});
+             return;
+    }
+    var id = params.id;
+    var docs = await IMG.find({id_user_up: id});
+    console.log(docs);
+    if (docs.length ==0) {
+        var docs = new Array();;
+    }
+    //introducimos datos a rest
+    var obj = {};
+    obj = req.body;
+    obj["foto_lugar"] = docs;
+    var userDB = new REST(obj);
     userDB.save((err, docs) => {
         if (err) {
             var errors = err.errors;
@@ -58,6 +73,8 @@ router.post("/rest", async(req, res) => {
         res.status(200).json(docs);
         return;
     });
+    await USER.update({_id: id}, {$set: {"rest_regis": userDB}});
+    console.log(userDB);
 });
 //PUT actualizar
 router.put("/rest", async(req, res) => {
@@ -117,7 +134,7 @@ router.post("/sendimg", async(req, res) => {
         res.status(300).json({msn: "El usuario no existe"});
         return;
     }
-    console.log(idusario);
+    //console.log(idusario);
     var img = req.files.file;
     var path = __dirname.replace(/\/routes/g, "/img");
     var date = new Date();
@@ -133,9 +150,9 @@ router.post("/sendimg", async(req, res) => {
         var obj = {};
         if (img.name != null) {
             obj["nombre"] = img.name;
-            obj["pathfile"] = totalpath;
-            obj["id_user_up"] = idusario;
         }
+        obj["pathfile"] = totalpath;
+        obj["id_user_up"] = idusario;
         var image = new IMG(obj);
         image.save((err, docs) => {
             if (err) {
