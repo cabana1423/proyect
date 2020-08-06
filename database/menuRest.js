@@ -17,9 +17,8 @@ var MENURESTSCHEMA = new mongoose.Schema({
         default: new Date()
     },
     foto_produc: {
-        type: String, 
-        default: "No IMAGE",
-        required: [true, "la ruta de la imagen es necesaria"]
+        type: Array, 
+        default: [],
     }
 });
 var MENUREST = mongoose.model("menu", MENURESTSCHEMA);
