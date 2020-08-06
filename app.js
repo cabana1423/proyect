@@ -8,7 +8,8 @@ var restRouter = require('./routes/Restaurant');
 var menuRouter = require('./routes/MenuRest');
 var userRouter = require('./routes/User');
 var imgRouter = require('./routes/img_rest.js');
-//var usersRouter = require('./routes/users');
+var imgmenuRouter = require('./routes/img_menu.js');
+
 
 var app = express();
 
@@ -26,6 +27,7 @@ app.use('/api_v1.0', restRouter);
 app.use('/api_v1.0', menuRouter);
 app.use('/api_v1.0', userRouter);
 app.use('/api_v1.0', imgRouter);
+app.use('/api_v1.0', imgmenuRouter);
 //app.use('/users', usersRouter);
 
 // catch 404 and forward to error handler

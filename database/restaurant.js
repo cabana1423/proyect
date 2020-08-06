@@ -38,6 +38,10 @@ var REST_SCHEMA = new mongoose.Schema({
     foto_lugar: {
         type:Array,
         default: []
+    },
+    menus: {
+        type:Array,
+        default: []
     }
 });
 var REST = mongoose.model("restaurant", REST_SCHEMA);

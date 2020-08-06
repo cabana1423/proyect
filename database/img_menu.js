@@ -12,7 +12,7 @@ var IMGMENUSCHEMA = new mongoose.Schema({
         type: Date,
         default: new Date()
     },
-    id_user_up:{
+    id_rest_up:{
         type:String,
         required:[true, "el usuario es nesesario"]
     }

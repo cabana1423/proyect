@@ -1,6 +1,11 @@
 var express = require("express");
 var router = express.Router();
+var fileUpload = require("express-fileupload")
+var sha1 = require("sha1");
 var MENUREST = require("../database/menuRest");
+var REST = require("../database/restaurant");
+var IMGMENU = require("../database/img_menu");
+const USER = require("../database/user");
 //GET mostrar
 router.get("/menu", (req, res) => {
     var filter={};
@@ -32,9 +37,24 @@ router.get("/menu", (req, res) => {
     });
 });
 // POST registrar
-router.post("/menu", (req, res) => {
-    var menuRest = req.body;
-    var userDB = new MENUREST(menuRest);
+router.post("/menu", async(req, res) => {
+    //buscamos img de user
+    var params = req.query;
+    if (params.id == null) {
+        res.status(300).json({msn: "El id es necesario"});
+             return;
+    }
+    var id = params.id;
+    var docs = await IMGMENU.find({id_rest_up: id});
+    console.log(docs);
+    if (docs.length ==0) {
+        var docs = new Array();;
+    }
+    //introducimos datos a rest
+    var obj = {};
+    obj = req.body;
+    obj["foto_produc"] = docs;
+    var userDB = new MENUREST(obj);
     userDB.save((err, docs) => {
         if (err) {
             var errors = err.errors;
@@ -48,7 +68,10 @@ router.post("/menu", (req, res) => {
         }
         res.status(200).json(docs);
         return;
-    })
+    });
+    await REST.update({_id: id}, {$set: {"menus": userDB}});
+    //await USER.update({rest_regis._id: id}, {$set: {"menus": userDB}});
+
 });
 //PUT actualizar
 router.put("/menu", async(req, res) => {

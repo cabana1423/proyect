@@ -2,7 +2,7 @@ var express = require("express");
 var router = express.Router();
 var fileUpload = require("express-fileupload")
 var sha1 = require("sha1");
-var USER = require("../database/user");
+var REST = require("../database/restaurant");
 var IMGMENU = require("../database/img_menu");
 //imagen de restaurante
 router.post("/imgmenu", async(req, res) => {
@@ -12,16 +12,16 @@ router.post("/imgmenu", async(req, res) => {
              return;
     }
     var id = params.id;
-    var docs = await USER.find({_id: id});
+    var docs = await REST.find({_id: id});
     if (docs.length > 0) {
-        var idusario = docs[0].id;
+        var idrest = docs[0].id;
     }else{
-        res.status(300).json({msn: "El usuario no existe"});
+        res.status(300).json({msn: "El restaurant no existe"});
         return;
     }
-    //console.log(idusario);
+    console.log(idrest);
     var img = req.files.file;
-    var path = __dirname.replace(/\/routes/g, "/img");
+    var path = __dirname.replace(/\/routes/g, "/img_menu");
     var date = new Date();
     var sing  = sha1(date.toString()).substr(1, 5);
     var totalpath = path + "/" + sing + "_" + img.name.replace(/\s/g,"_");
@@ -37,7 +37,7 @@ router.post("/imgmenu", async(req, res) => {
             obj["nombre"] = img.name;
         }
         obj["pathfile"] = totalpath;
-        obj["id_user_up"] = idusario;
+        obj["id_rest_up"] = idrest;
         var image = new IMGMENU(obj);
         image.save((err, docs) => {
             if (err) {
