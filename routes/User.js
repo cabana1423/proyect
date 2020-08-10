@@ -56,4 +56,36 @@ router.post("/login", async(req, res) => {
     }
     res.status(200).json({msn: "Credenciales incorrectas"});
 });
+//GET user
+router.get("/user", (req, res) => {
+    var filter={};
+    var params= req.query;
+    var select="";
+    var order = {};
+    if(params.nombre_rest!=null){
+        var expresion =new RegExp(params.nombre_rest);
+        filter["nombre_rest"]=expresion;
+    }
+    if(params.filters!=null){
+        select=params.filters.replace(/,/g, " ");
+    }
+    if (params.order != null) {
+        var data = params.order.split(",");
+        var number = parseInt(data[1]);
+        order[data[0]] = number;
+    }
+    //console.log(filter);
+    console.log("es estes"+select);
+    var restDB=USER.find(filter).
+    select(select).
+    sort(order);
+    restDB.exec((err, docs)=>{
+        if(err){
+            res.status(500).json({msn: "Error en la coneccion del servidor"});
+            return;
+        }
+        res.status(200).json(docs);
+        return;
+    });
+});
 module.exports = router;

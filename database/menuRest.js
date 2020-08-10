@@ -19,6 +19,14 @@ var MENURESTSCHEMA = new mongoose.Schema({
     foto_produc: {
         type: Array, 
         default: [],
+    },
+    id_usuario_menu: {
+        type: String,
+        required: [true, "el usuario es necesario"]
+    },
+    id_rest_menu: {
+        type: String,
+        required: [true, "El restauante es necesaria"]
     }
 });
 var MENUREST = mongoose.model("menu", MENURESTSCHEMA);

@@ -45,15 +45,23 @@ router.post("/menu", async(req, res) => {
              return;
     }
     var id = params.id;
-    var docs = await IMGMENU.find({id_rest_up: id});
-    console.log(docs);
-    if (docs.length ==0) {
-        var docs = new Array();;
-    }
-    //introducimos datos a rest
+    //introducimos datos a menu
     var obj = {};
     obj = req.body;
-    obj["foto_produc"] = docs;
+    var docsrest = await REST.find({_id: id});
+    if (docsrest.length ==1) {
+        obj["id_rest_menu"] = id;
+    }
+    else{
+        res.status(300).json({msn: "El restaurante no existe"});
+        return;
+    }
+    var docs = await IMGMENU.find({id_rest_img: id});
+    if (docs.length ==1) {
+        obj["foto_produc"] = docs;
+    }
+    obj["id_usuario_menu"]=docsrest[0].id_user_in_rest;
+    console.log(docsrest);
     var userDB = new MENUREST(obj);
     userDB.save((err, docs) => {
         if (err) {
@@ -69,8 +77,6 @@ router.post("/menu", async(req, res) => {
         res.status(200).json(docs);
         return;
     });
-    await REST.update({_id: id}, {$set: {"menus": userDB}});
-    //await USER.update({rest_regis._id: id}, {$set: {"menus": userDB}});
 
 });
 //PUT actualizar

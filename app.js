@@ -8,7 +8,7 @@ var restRouter = require('./routes/Restaurant');
 var menuRouter = require('./routes/MenuRest');
 var userRouter = require('./routes/User');
 var imgRouter = require('./routes/img_rest.js');
-var imgmenuRouter = require('./routes/img_menu.js');
+var imgmenuRouter = require('./routes/Img_menu.js');
 
 
 var app = express();

@@ -23,10 +23,6 @@ var USERSCHEMA = new mongoose.Schema({
         type: Date,
         default: new Date()
     },
-    rest_regis: {
-        type:Array,
-        default: []
-    }
 });
 var USER = mongoose.model("user", USERSCHEMA);
 module.exports = USER;

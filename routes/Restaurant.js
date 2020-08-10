@@ -28,6 +28,8 @@ router.get("/rest", (req, res) => {
         var number = parseInt(data[1]);
         order[data[0]] = number;
     }
+    console.log(filter);
+    console.log(select);
     var restDB=REST.find(filter).
     select(select).
     sort(order);
@@ -49,15 +51,16 @@ router.post("/rest", async(req, res) => {
              return;
     }
     var id = params.id;
-    var docs = await IMG.find({id_user_up: id});
-    console.log(docs);
+    var docs = await USER.find({_id: id});
+    //console.log(docs);
     if (docs.length ==0) {
-        var docs = new Array();;
+        res.status(300).json({msn: "El usuario no existe"});
+        return;
     }
     //introducimos datos a rest
     var obj = {};
     obj = req.body;
-    obj["foto_lugar"] = docs;
+    obj["id_user_in_rest"] = id;
     var userDB = new REST(obj);
     userDB.save((err, docs) => {
         if (err) {
@@ -73,8 +76,9 @@ router.post("/rest", async(req, res) => {
         res.status(200).json(docs);
         return;
     });
-    await USER.update({_id: id}, {$set: {"rest_regis": userDB}});
-    console.log(userDB);
+    var aux =JSON.stringify(userDB.id);
+    //aux2 = ObjectId(aux);
+    await IMG.update({id_user_up: id}, {$set: {"id_rest": aux}});
 });
 //PUT actualizar
 router.put("/rest", async(req, res) => {

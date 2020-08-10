@@ -15,6 +15,9 @@ var IMGSCHEMA = new mongoose.Schema({
     id_user_up:{
         type:String,
         required:[true, "el usuario es nesesario"]
+    },
+    id_rest:{
+        type:String
     }
 });
 var IMG = mongoose.model("images", IMGSCHEMA);
