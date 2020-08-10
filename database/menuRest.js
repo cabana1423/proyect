@@ -5,7 +5,7 @@ var MENURESTSCHEMA = new mongoose.Schema({
         required: [true, "El Nombre es necesario"]
     },
     precio: {
-        type: String,
+        type: Number,
         required: [true, "El precio es necesaria"]
     },
     descripcion: {

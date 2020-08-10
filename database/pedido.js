@@ -1,5 +1,9 @@
 var mongoose = require("./connect");
 var PEDIDOCHEMA = new mongoose.Schema({
+    idUser_ped: {
+        type: String,
+        required: [true, "el user es necesario"]
+    },
     idRest_ped: {
         type: String,
         required: [true, "el restaurante es necesario"]
@@ -16,18 +20,18 @@ var PEDIDOCHEMA = new mongoose.Schema({
         type: Date,
         default: new Date()
     },
-    lat: {
+    /*lat: {
         type: String,
         required: [true, "lat necesaria"]
     },
     log: {
         type: String,
         required: [true, " log necesaria"]
-    },
+    },*/
     pago_total: {
-        type: String,
+        type: Number,
         required: [true, " pago total necesario"]
-    },
+    }
 });
 var PEDIDO = mongoose.model("pedidos", PEDIDOCHEMA);
 module.exports = PEDIDO;
