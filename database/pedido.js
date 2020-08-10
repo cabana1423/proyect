@@ -1,0 +1,33 @@
+var mongoose = require("./connect");
+var PEDIDOCHEMA = new mongoose.Schema({
+    idRest_ped: {
+        type: String,
+        required: [true, "el restaurante es necesario"]
+    },
+    idMenu_ped: {
+        type: String,
+        required: [true, "El menu es necesario"],
+    },
+    cantidad: {
+        type: String,
+        required: [true, " la cantidad es necesario"]
+    },
+    fecha_reg: {
+        type: Date,
+        default: new Date()
+    },
+    lat: {
+        type: String,
+        required: [true, "lat necesaria"]
+    },
+    log: {
+        type: String,
+        required: [true, " log necesaria"]
+    },
+    pago_total: {
+        type: String,
+        required: [true, " pago total necesario"]
+    },
+});
+var PEDIDO = mongoose.model("pedidos", PEDIDOCHEMA);
+module.exports = PEDIDO;
