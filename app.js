@@ -10,6 +10,7 @@ var userRouter = require('./routes/User');
 var imgRouter = require('./routes/img_rest');
 var imgmenuRouter = require('./routes/Img_menu');
 var pedidoRouter = require('./routes/Pedido');
+var facRouter = require('./routes/Facturas');
 
 
 var app = express();
@@ -30,6 +31,7 @@ app.use('/api_v1.0', userRouter);
 app.use('/api_v1.0', imgRouter);
 app.use('/api_v1.0', imgmenuRouter);
 app.use('/api_v1.0', pedidoRouter);
+app.use('/api_v1.0', facRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
