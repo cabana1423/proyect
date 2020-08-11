@@ -2,7 +2,7 @@ var mongoose = require("./connect");
 var PEDIDOCHEMA = new mongoose.Schema({
     idUser_ped: {
         type: String,
-        required: [true, "el user es necesario"]
+        required: [true, "el usuario es necesario"]
     },
     idRest_ped: {
         type: String,

@@ -47,20 +47,31 @@ router.post("/rest", async(req, res) => {
     //buscamos img de user
     var params = req.query;
     if (params.id == null) {
-        res.status(300).json({msn: "El id es necesario"});
+        res.status(300).json({msn: "El id usuario es necesario"});
              return;
     }
     var id = params.id;
     var docs = await USER.find({_id: id});
-    //console.log(docs);
     if (docs.length ==0) {
         res.status(300).json({msn: "El usuario no existe"});
+        return;
+    }//id img
+    if (params.idi == null) {
+        res.status(300).json({msn: "El id imagen es necesario"});
+             return;
+    }
+    var idi = params.idi;
+    var docimg = await IMG.find({_id: idi});
+    //console.log(docs);
+    if (docimg.length ==0) {
+        res.status(300).json({msn: "La imagen no existe no existe"});
         return;
     }
     //introducimos datos a rest
     var obj = {};
     obj = req.body;
-    obj["id_user_in_rest"] = id;
+    obj["id_user_rest"] = id;
+    obj["foto_lugar"] = docimg[0];
     var userDB = new REST(obj);
     userDB.save((err, docs) => {
         if (err) {
@@ -76,9 +87,6 @@ router.post("/rest", async(req, res) => {
         res.status(200).json(docs);
         return;
     });
-    var aux =JSON.stringify(userDB.id);
-    //aux2 = ObjectId(aux);
-    await IMG.update({id_user_up: id}, {$set: {"id_rest": aux}});
 });
 //PUT actualizar
 router.put("/rest", async(req, res) => {
@@ -87,9 +95,6 @@ router.put("/rest", async(req, res) => {
     if (params.id == null) {
         res.status(300).json({msn: "El parámetro ID es necesario"});
         return;
-    }
-    else{
-
     }
     var allowkeylist = ["nombre_rest", "nit", "propietario","calle","telefono"];
     var keys = Object.keys(bodydata);

@@ -39,7 +39,7 @@ var REST_SCHEMA = new mongoose.Schema({
         type:Array,
         default: []
     },
-    id_user_in_rest: {
+    id_user_rest: {
         type:String,
         required: [true, "El el ide del usuario es necesario"]
 

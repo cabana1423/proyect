@@ -18,7 +18,7 @@ router.post("/user", async(req, res) => {
       
       return;
   }
-  if (!/[\$\^\@\&\(\)\{\}\#]+/.test(userRest.password)) {
+  if (!/[\!\"\=\?\¡\¿\$\^\@\&\(\)\{\}\#]+/.test(userRest.password)) {
       res.status(300).json({msn: "Necesita un caracter especial"});
       return;
   }
@@ -87,5 +87,44 @@ router.get("/user", (req, res) => {
         res.status(200).json(docs);
         return;
     });
+});
+router.delete("/user",async(req, res) => {
+    if (req.query.id == null) {
+        res.status(300).json({
+        msn: "no existe id"
+        });
+        return;
+    }
+        var r = await USER.remove({_id: req.query.id});
+        res.status(300).json(r);
+    });
+
+router.put("/user", async(req, res) => {
+    var params = req.query;
+    var bodydata = req.body;
+    if (params.id == null) {
+        res.status(300).json({msn: "El parámetro ID es necesario"});
+        return;
+    }
+    else{
+
+    }
+    bodydata.password = sha1(bodydata.password);
+    var allowkeylist = ["nombre","password"];
+    var keys = Object.keys(bodydata);
+    var updateobjectdata = {};
+    for (var i = 0; i < keys.length; i++) {
+        if (allowkeylist.indexOf(keys[i]) > -1) {
+            updateobjectdata[keys[i]] = bodydata[keys[i]];
+        }
+    }
+    USER.update({_id:  params.id}, {$set: updateobjectdata}, (err, docs) => {
+       if (err) {
+           res.status(500).json({msn: "Existen problemas en la base de datos"});
+            return;
+        } 
+        res.status(200).json(docs);
+    });
+
 });
 module.exports = router;

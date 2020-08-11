@@ -41,7 +41,7 @@ router.post("/menu", async(req, res) => {
     //buscamos img de user
     var params = req.query;
     if (params.id == null) {
-        res.status(300).json({msn: "El id es necesario"});
+        res.status(300).json({msn: "El id restaurant es necesario"});
              return;
     }
     var id = params.id;
@@ -60,8 +60,8 @@ router.post("/menu", async(req, res) => {
     if (docs.length ==1) {
         obj["foto_produc"] = docs;
     }
-    obj["id_usuario_menu"]=docsrest[0].id_user_in_rest;
-    console.log(docsrest);
+    obj["id_usuario_menu"]=docsrest[0].id_user_rest;
+    //console.log(docsrest);
     var userDB = new MENUREST(obj);
     userDB.save((err, docs) => {
         if (err) {

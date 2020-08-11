@@ -11,9 +11,9 @@ router.get("/order", (req, res) => {
     var params= req.query;
     var select="";
     var order = {};
-    if(params.nombre_menu!=null){
-        var expresion =new RegExp(params.nombre_menu);
-        filter["nombre_menu"]=expresion;
+    if(params.user!=null){
+        var expresion =new RegExp(params.user);
+        filter["idUser_ped"]=expresion;
     }
     if(params.filters!=null){
         select=params.filters.replace(/,/g, " ");
@@ -95,10 +95,10 @@ router.put("/order", async(req, res) => {
     var params = req.query;
     var bodydata = req.body;
     if (params.id == null) {
-        res.status(300).json({msn: "El parámetro ID es necesario"});
+        res.status(300).json({msn: "El parámetro ID pedido es necesario"});
         return;
     }
-    var allowkeylist = ["nombre_menu", "precio", "descripcion"];
+    var allowkeylist = ["cantidad"];
     var keys = Object.keys(bodydata);
     var updateobjectdata = {};
     for (var i = 0; i < keys.length; i++) {
@@ -133,7 +133,7 @@ router.patch("/order", (req, res) => {
 router.delete("/order", (req, res) => {
     var params = req.query;
     if (params.id == null) {
-        res.status(300).json({msn: "El parámetro ID es necesario"});
+        res.status(300).json({msn: "El parámetro ID pedido es necesario"});
         return;
     }
     PEDIDO.remove({_id: params.id}, (err, docs) => {

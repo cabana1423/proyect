@@ -10,9 +10,9 @@ router.get("/fac", (req, res) => {
     var params= req.query;
     var select="";
     var order = {};
-    if(params.nombre_menu!=null){
-        var expresion =new RegExp(params.nombre_menu);
-        filter["nombre_menu"]=expresion;
+    if(params.user!=null){
+        var expresion =new RegExp(params.user);
+        filter["idUser_fac"]=expresion;
     }
     if(params.filters!=null){
         select=params.filters.replace(/,/g, " ");
@@ -36,7 +36,6 @@ router.get("/fac", (req, res) => {
 });
 // POST registrar
 router.post("/fac", async(req, res) => {
-    //buscamos img de menu
     var params = req.query;
     var obj = {};
     if (params.id == null) {
@@ -74,50 +73,11 @@ router.post("/fac", async(req, res) => {
         return;
     });
 });
-//PUT actualizar
-router.put("/fac", async(req, res) => {
-    var params = req.query;
-    var bodydata = req.body;
-    if (params.id == null) {
-        res.status(300).json({msn: "El parámetro ID es necesario"});
-        return;
-    }
-    var allowkeylist = ["nombre_menu", "precio", "descripcion"];
-    var keys = Object.keys(bodydata);
-    var updateobjectdata = {};
-    for (var i = 0; i < keys.length; i++) {
-        if (allowkeylist.indexOf(keys[i]) > -1) {
-            updateobjectdata[keys[i]] = bodydata[keys[i]];
-        }
-    }
-    FACTURA.update({_id:  params.id}, {$set: updateobjectdata}, (err, docs) => {
-       if (err) {
-           res.status(500).json({msn: "Existen problemas en la base de datos"});
-            return;
-        } 
-        res.status(200).json(docs);
-    });
-
-});
-//PATCH UPDATE
-router.patch("/fac", (req, res) => {
-    if (req.query.id == null) {
-        res.status(300).json({
-        msn: "no existe id"
-    });
-    return;
-    }
-    var id = req.query.id;
-    var params = req.body;
-    FACTURA.findOneAndUpdate({_id: id}, params, (err, docs) => {
-        res.status(200).json(docs);
-    });
-});
 //DELETE 
 router.delete("/fac", (req, res) => {
     var params = req.query;
     if (params.id == null) {
-        res.status(300).json({msn: "El parámetro ID es necesario"});
+        res.status(300).json({msn: "El parámetro ID factura es necesario"});
         return;
     }
     FACTURA.remove({_id: params.id}, (err, docs) => {
