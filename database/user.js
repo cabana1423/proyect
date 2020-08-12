@@ -23,6 +23,11 @@ var USERSCHEMA = new mongoose.Schema({
         type: Date,
         default: new Date()
     },
+    roles: {
+        type: Array,
+        default:[]
+    }
+
 });
 var USER = mongoose.model("user", USERSCHEMA);
 module.exports = USER;

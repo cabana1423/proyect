@@ -1,6 +1,5 @@
 var JWT=require("jsonwebtoken");
 var USER=require("../database/user");
-const map=require("map");
 var midleware=async(req,res, next)=>{
     var token=req.headers["authorization"];
     //console.log(token);
@@ -21,15 +20,23 @@ var midleware=async(req,res, next)=>{
         res.status(403).json({error: " no tiene acceso a este lugar usuario no existe"});
         return;
     }
+    var roles = docs.roles.map(item =>{
+        return item;   
+    });
+    console.log(roles);
     var services =req.originalUrl.substr(1, 100);
     if(services.lastIndexOf("?")> -1){
         services=services.substring(0, services.lastIndexOf("?"));  
     }
     var METHOD =req.method;
-    var url =services;
-
-
-    next();
-
+    var URL =services;
+    for(var i=0;i<roles.length;i++){
+        if(METHOD==roles[i].method && URL==roles[i].service){
+            next();
+            return;
+        }
+    }
+    res.status(403).json({error:"no tiene acceso a este servicio"});
+    return;
 }
 module.exports=midleware;

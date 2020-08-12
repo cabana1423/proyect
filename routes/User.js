@@ -95,7 +95,7 @@ router.get("/user",midleware, (req, res) => {
         return;
     });
 });
-router.delete("/user",async(req, res) => {
+router.delete("/user",midleware, async(req, res) => {
     if (req.query.id == null) {
         res.status(300).json({
         msn: "no existe id"
@@ -106,7 +106,7 @@ router.delete("/user",async(req, res) => {
         res.status(300).json(r);
     });
 
-router.put("/user", async(req, res) => {
+router.put("/user",midleware, async(req, res) => {
     var params = req.query;
     var bodydata = req.body;
     if (params.id == null) {

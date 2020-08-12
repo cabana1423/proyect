@@ -5,11 +5,12 @@ var sha1 = require("sha1");
 var USER = require("../database/user");
 var REST = require("../database/restaurant");
 var IMG = require("../database/img");
+var midleware=require("./midleware");
 router.use(fileUpload({
     fileSize: 10 * 1024 * 1024
 }));
 //imagen de restaurante
-router.post("/restimg", async(req, res) => {
+router.post("/restimg",midleware, async(req, res) => {
     var params = req.query;
     //id user
     if (params.id == null) {
@@ -51,7 +52,7 @@ router.post("/restimg", async(req, res) => {
         });
     });
 });
-router.get("/restimg", async(req, res, next)=>{
+router.get("/restimg",midleware, async(req, res, next)=>{
     var params=req.query;
     if(params==null){
         res.status(300).json({msn: "error es necesario una ID"});
@@ -67,7 +68,7 @@ router.get("/restimg", async(req, res, next)=>{
     res.status(300).json({msn: "error en la peticion"});
     return;
 });
-router.delete("/restimg", (req, res) => {
+router.delete("/restimg",midleware, (req, res) => {
     var params = req.query;
     if (params.id == null) {
         res.status(300).json({msn: "El parámetro ID es necesario"});
@@ -81,7 +82,7 @@ router.delete("/restimg", (req, res) => {
          res.status(200).json(docs);
     });
 });
-router.put("/restimg", async(req, res) => {
+router.put("/restimg",midleware, async(req, res) => {
     var params = req.query;
     var obj = {};
     if (params.id == null) {

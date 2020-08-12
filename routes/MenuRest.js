@@ -6,8 +6,9 @@ var MENUREST = require("../database/menuRest");
 var REST = require("../database/restaurant");
 var IMGMENU = require("../database/img_menu");
 const USER = require("../database/user");
+var midleware=require("./midleware");
 //GET mostrar
-router.get("/menu", (req, res) => {
+router.get("/menu",midleware, (req, res) => {
     var filter={};
     var params= req.query;
     var select="";
@@ -37,7 +38,7 @@ router.get("/menu", (req, res) => {
     });
 });
 // POST registrar
-router.post("/menu", async(req, res) => {
+router.post("/menu",midleware, async(req, res) => {
     //buscamos img de user
     var params = req.query;
     if (params.id == null) {
@@ -88,7 +89,7 @@ router.post("/menu", async(req, res) => {
 
 });
 //PUT actualizar
-router.put("/menu", async(req, res) => {
+router.put("/menu", midleware, async(req, res) => {
     var params = req.query;
     var bodydata = req.body;
     if (params.id == null) {
@@ -112,22 +113,8 @@ router.put("/menu", async(req, res) => {
     });
 
 });
-//PATCH UPDATE
-router.patch("/menu", (req, res) => {
-    if (req.query.id == null) {
-        res.status(300).json({
-        msn: "no existe id"
-    });
-    return;
-    }
-    var id = req.query.id;
-    var params = req.body;
-    MENUREST.findOneAndUpdate({_id: id}, params, (err, docs) => {
-        res.status(200).json(docs);
-    });
-});
 //DELETE 
-router.delete("/menu", (req, res) => {
+router.delete("/menu",midleware, (req, res) => {
     var params = req.query;
     if (params.id == null) {
         res.status(300).json({msn: "El parámetro ID es necesario"});

@@ -3,9 +3,10 @@ var router = express.Router();
 var sha1 = require("sha1");
 var FACTURA = require("../database/factura");
 var PEDIDO = require("../database/pedido");
+var midleware=require("./midleware");
 
 //GET mostrar
-router.get("/fac", (req, res) => {
+router.get("/fac", midleware, (req, res) => {
     var filter={};
     var params= req.query;
     var select="";
@@ -35,7 +36,7 @@ router.get("/fac", (req, res) => {
     });
 });
 // POST registrar
-router.post("/fac", async(req, res) => {
+router.post("/fac", midleware, async(req, res) => {
     var params = req.query;
     var obj = {};
     if (params.id == null) {

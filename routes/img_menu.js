@@ -4,12 +4,13 @@ var fileUpload = require("express-fileupload")
 var sha1 = require("sha1");
 var REST = require("../database/restaurant");
 var IMGMENU = require("../database/img_menu");
+var midleware=require("./midleware");
 
 router.use(fileUpload({
     fileSize: 10 * 1024 * 1024
 }));
 //imagen de menu
-router.post("/imgmenu", async(req, res) => {
+router.post("/imgmenu", midleware, async(req, res) => {
     var params = req.query;
     if (params.id == null) {
         res.status(300).json({msn: "El id es necesario"});
@@ -49,7 +50,7 @@ router.post("/imgmenu", async(req, res) => {
         });
     });
 });
-router.get("/imgmenu", async(req, res, next)=>{
+router.get("/imgmenu", midleware, async(req, res, next)=>{
     var params=req.query;
     if(params==null){
         res.status(300).json({msn: "error es necesario una ID"});
@@ -66,7 +67,7 @@ router.get("/imgmenu", async(req, res, next)=>{
     return;
 });
 
-router.put("/imgmenu", async(req, res) => {
+router.put("/imgmenu",midleware,  async(req, res) => {
     var params = req.query;
     var obj = {};
     if (params.id == null) {
@@ -92,7 +93,7 @@ router.put("/imgmenu", async(req, res) => {
     });
 
 });
-router.delete("/imgmenu", (req, res) => {
+router.delete("/imgmenu",midleware,  (req, res) => {
     var params = req.query;
     if (params.id == null) {
         res.status(300).json({msn: "El parámetro ID es necesario"});

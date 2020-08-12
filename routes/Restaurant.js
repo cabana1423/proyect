@@ -5,9 +5,10 @@ var sha1 = require("sha1");
 var REST = require("../database/restaurant");
 var USER = require("../database/user");
 var IMG = require("../database/img");
+var midleware=require("./midleware");
 
 //GET mostrar
-router.get("/rest", (req, res) => {
+router.get("/rest",midleware,  (req, res) => {
     var filter={};
     var params= req.query;
     var select="";
@@ -39,7 +40,7 @@ router.get("/rest", (req, res) => {
     });
 });
 // POST registrar
-router.post("/rest", async(req, res) => {
+router.post("/rest", midleware, async(req, res) => {
     //buscamos img de user
     var params = req.query;
     if (params.id == null) {
@@ -84,7 +85,7 @@ router.post("/rest", async(req, res) => {
     });
 });
 //PUT actualizar
-router.put("/rest", async(req, res) => {
+router.put("/rest", midleware, async(req, res) => {
     var params = req.query;
     var bodydata = req.body;
     if (params.id == null) {
@@ -109,7 +110,7 @@ router.put("/rest", async(req, res) => {
 
 });
 //DELETE 
-router.delete("/rest", (req, res) => {
+router.delete("/rest",midleware,  (req, res) => {
     var params = req.query;
     if (params.id == null) {
         res.status(300).json({msn: "El parámetro ID es necesario"});
