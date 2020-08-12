@@ -7,6 +7,21 @@ var midleware=require("./midleware");
 
 //REGISTER USER
 router.post("/user", async(req, res) => {
+    var obj={};
+    var rolCliente=[{"method":"GET","service":"api_v1.0/order"},{"method":"POST","service":"api_v1.0/order"},
+    {"method":"PUT","service":"api_v1.0/order"},{"method":"DELETE","service":"api_v1.0/order"},
+    {"method":"GET","service":"api_v1.0/fac"},{"method":"GET","service":"api_v1.0/rest"},
+    {"method":"GET","service":"api_v1.0/menu"}];
+    var rolDueño=[{"method":"GET","service":"api_v1.0/rest"},{"method":"POST","service":"api_v1.0/rest"},
+    {"method":"PUT","service":"api_v1.0/rest"},{"method":"DELETE","service":"api_v1.0/rest"},
+    {"method":"GET","service":"api_v1.0/restimg"},{"method":"POST","service":"api_v1.0/restimg"},
+    {"method":"PUT","service":"api_v1.0/restimg"},{"method":"DELETE","service":"api_v1.0/restimg"},
+    {"method":"GET","service":"api_v1.0/imgmenu"},{"method":"POST","service":"api_v1.0/imgmenu"},
+    {"method":"PUT","service":"api_v1.0/imgmenu"},{"method":"DELETE","service":"api_v1.0/imgmenu"},
+    {"method":"GET","service":"api_v1.0/menu"},{"method":"POST","service":"api_v1.0/menu"},
+    {"method":"PUT","service":"api_v1.0/menu"},{"method":"DELETE","service":"api_v1.0/menu"},
+    {"method":"GET","service":"api_v1.0/fac"},{"method":"GET","service":"api_v1.0/order"}];
+    //ojo verificar si añadir roles de usuario
   var userRest = req.body;
     if (userRest.password == null) {
       res.status(300).json({msn: "El password es necesario pra continuar con el registro"});
@@ -26,7 +41,19 @@ router.post("/user", async(req, res) => {
       return;
   }
   userRest.password = sha1(userRest.password);
-  var userDB = new USER(userRest);
+  obj=userRest;
+  if(userRest.tipo!=null){
+    if(userRest.tipo=="cliente"){
+        obj["roles"]=rolCliente;
+    }
+    if(userRest.tipo=="dueño"){
+        obj["roles"]=rolDueño;
+    }
+  }else
+    res.status(300).json({msn: "elija el tipo de usuario"});
+
+  obj["tipo"]=userRest.tipo;
+  var userDB = new USER(obj);
   userDB.save((err, docs) => {
       if (err) {
           var errors = err.errors;
