@@ -1,7 +1,10 @@
 var express = require('express');
 var router = express.Router();
 var sha1 = require("sha1");
+var JWT=require("jsonwebtoken");
 var USER = require("../database/user");
+var midleware=require("./midleware");
+
 //REGISTER USER
 router.post("/user", async(req, res) => {
   var userRest = req.body;
@@ -51,13 +54,17 @@ router.post("/login", async(req, res) => {
     }
     var results = await USER.find({email: body.email, password: sha1(body.password)});
     if (results.length == 1) {
-        res.status(200).json({msn: "Bienvenido al sistema " + body.email + " :) "});
+        var token =JWT.sign({
+            exp:Math.floor(Date.now()/1000)+(60*60*60),
+            data:results[0].id
+        }, 'PedroCabanaBautistaPotosiBolivia2020');
+        res.status(200).json({msn: "Bienvenido al sistema " + body.email + " :) ",token:token});
         return;
     }
     res.status(200).json({msn: "Credenciales incorrectas"});
 });
 //GET user
-router.get("/user", (req, res) => {
+router.get("/user",midleware, (req, res) => {
     var filter={};
     var params= req.query;
     var select="";
@@ -75,7 +82,7 @@ router.get("/user", (req, res) => {
         order[data[0]] = number;
     }
     //console.log(filter);
-    console.log("es estes"+select);
+    //console.log("es estes"+select);
     var restDB=USER.find(filter).
     select(select).
     sort(order);

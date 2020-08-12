@@ -4,7 +4,11 @@ var fileUpload = require("express-fileupload")
 var sha1 = require("sha1");
 var REST = require("../database/restaurant");
 var IMGMENU = require("../database/img_menu");
-//imagen de restaurante
+
+router.use(fileUpload({
+    fileSize: 10 * 1024 * 1024
+}));
+//imagen de menu
 router.post("/imgmenu", async(req, res) => {
     var params = req.query;
     if (params.id == null) {
@@ -13,13 +17,13 @@ router.post("/imgmenu", async(req, res) => {
     }
     var id = params.id;
     var docs = await REST.find({_id: id});
-    if (docs.length > 0) {
+    if (docs.length ==1) {
         var idrest = docs[0].id;
     }else{
         res.status(300).json({msn: "El usuario no existe"});
         return;
     }
-    console.log(idrest);
+    //console.log(idrest);
     var img = req.files.file;
     var path = __dirname.replace(/\/routes/g, "/img_menu");
     var date = new Date();
@@ -53,7 +57,7 @@ router.get("/imgmenu", async(req, res, next)=>{
     }
     var idimg = params.id ;
     var imagen=await IMGMENU.find({_id: idimg});
-    if(imagen.length>0){
+    if(imagen.length==1){
         var path=imagen[0].pathfile;
         res.sendFile(path);
         return;

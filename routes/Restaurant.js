@@ -6,10 +6,6 @@ var REST = require("../database/restaurant");
 var USER = require("../database/user");
 var IMG = require("../database/img");
 
-//tamaño imagen
-router.use(fileUpload({
-    fileSize: 10 * 1024 * 1024
-}));
 //GET mostrar
 router.get("/rest", (req, res) => {
     var filter={};
@@ -61,8 +57,7 @@ router.post("/rest", async(req, res) => {
              return;
     }
     var idi = params.idi;
-    var docimg = await IMG.find({_id: idi});
-    //console.log(docs);
+    var docimg = await IMG.find({_id: idi, id_user_img:id});
     if (docimg.length ==0) {
         res.status(300).json({msn: "La imagen no existe no existe"});
         return;

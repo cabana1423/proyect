@@ -5,6 +5,9 @@ var sha1 = require("sha1");
 var USER = require("../database/user");
 var REST = require("../database/restaurant");
 var IMG = require("../database/img");
+router.use(fileUpload({
+    fileSize: 10 * 1024 * 1024
+}));
 //imagen de restaurante
 router.post("/restimg", async(req, res) => {
     var params = req.query;
@@ -15,7 +18,7 @@ router.post("/restimg", async(req, res) => {
     }
     var id = params.id;
     var docs = await USER.find({_id: id});
-    if (docs.length > 0) {
+    if (docs.length == 1) {
         var iduser = docs[0].id;
     }else{
         res.status(300).json({msn: "El usuario no existe"});
@@ -56,7 +59,7 @@ router.get("/restimg", async(req, res, next)=>{
     }
     var idimg = params.id ;
     var imagen=await IMG.find({_id: idimg});
-    if(imagen.length>0){
+    if(imagen.length==1){
         var path=imagen[0].pathfile;
         res.sendFile(path);
         return;

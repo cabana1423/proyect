@@ -45,6 +45,11 @@ router.post("/menu", async(req, res) => {
              return;
     }
     var id = params.id;
+    if (params.idim == null) {
+        res.status(300).json({msn: "El id imagen menu es necesario"});
+             return;
+    }
+    var idim = params.idim;
     //introducimos datos a menu
     var obj = {};
     obj = req.body;
@@ -56,12 +61,15 @@ router.post("/menu", async(req, res) => {
         res.status(300).json({msn: "El restaurante no existe"});
         return;
     }
-    var docs = await IMGMENU.find({id_rest_img: id});
+    var docs = await IMGMENU.find({_id:idim, id_rest_img: id});
+    console.log(docs);
     if (docs.length ==1) {
         obj["foto_produc"] = docs;
-    }
+    }else{
+        res.status(300).json({msn: "La imagen no existe"});
+        return;
+    } 
     obj["id_usuario_menu"]=docsrest[0].id_user_rest;
-    //console.log(docsrest);
     var userDB = new MENUREST(obj);
     userDB.save((err, docs) => {
         if (err) {
