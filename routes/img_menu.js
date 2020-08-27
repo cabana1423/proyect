@@ -6,9 +6,9 @@ var REST = require("../database/restaurant");
 var IMGMENU = require("../database/img_menu");
 var midleware=require("./midleware");
 
-router.use(fileUpload({
+/*router.use(fileUpload({
     fileSize: 10 * 1024 * 1024
-}));
+}));*/
 //imagen de menu
 router.post("/imgmenu", midleware, async(req, res) => {
     var params = req.query;
@@ -21,11 +21,12 @@ router.post("/imgmenu", midleware, async(req, res) => {
     if (docs.length ==1) {
         var idrest = docs[0].id;
     }else{
-        res.status(300).json({msn: "El usuario no existe"});
+        res.status(300).json({msn: "El restaurante no existe"});
         return;
     }
     //console.log(idrest);
     var img = req.files.file;
+    console.log(img);
     var path = __dirname.replace(/\/routes/g, "/img_menu");
     var date = new Date();
     var sing  = sha1(date.toString()).substr(1, 5);

@@ -27,10 +27,10 @@ var USERSCHEMA = new mongoose.Schema({
         type: Array,
         default:[]
     },
-    tipo: {
+    /*tipo: {
         type: String,
         required: [true, "El tipo de usuario es necesario"]
-    }
+    }*/
 });
 var USER = mongoose.model("user", USERSCHEMA);
 module.exports = USER;

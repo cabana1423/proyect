@@ -8,22 +8,23 @@ var midleware=async(req,res, next)=>{
         return;
     }
     var decoded =JWT.verify(token, 'PedroCabanaBautistaPotosiBolivia2020');
-    console.log(decoded);
+    //console.log(decoded);
     if(decoded==null){
         res.status(403).json({error: "no tiee acceso a este lugar token falso"});
         return;
     }
     var iduser=decoded.data;
-    //console.log(iduser);  
+    console.log(iduser);  
     var docs =await USER.findOne({_id: iduser});
     if(docs==null){
         res.status(403).json({error: " no tiene acceso a este lugar usuario no existe"});
         return;
     }
+    
+   /*control de los roles de usuarios
     var roles = docs.roles.map(item =>{
         return item;   
     });
-    console.log(roles);
     var services =req.originalUrl.substr(1, 100);
     if(services.lastIndexOf("?")> -1){
         services=services.substring(0, services.lastIndexOf("?"));  
@@ -36,7 +37,11 @@ var midleware=async(req,res, next)=>{
             return;
         }
     }
-    res.status(403).json({error:"no tiene acceso a este servicio"});
+    res.status(403).json({error:"no tiene acceso a este servicio"});*/
+
+
+    //eliminar next() si no se manejara roles
+    next();
     return;
 }
 module.exports=midleware;

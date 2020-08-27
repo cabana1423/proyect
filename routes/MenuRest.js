@@ -65,7 +65,7 @@ router.post("/menu",midleware, async(req, res) => {
     var docs = await IMGMENU.find({_id:idim, id_rest_img: id});
     console.log(docs);
     if (docs.length ==1) {
-        obj["foto_produc"] = docs;
+        obj["foto_produc"] = docs[0].id;
     }else{
         res.status(300).json({msn: "La imagen no existe"});
         return;

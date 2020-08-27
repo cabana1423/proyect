@@ -36,8 +36,8 @@ var REST_SCHEMA = new mongoose.Schema({
         default: new Date()
     },
     foto_lugar: {
-        type:Array,
-        default: []
+        type:String,
+        default: ""
     },
     id_user_rest: {
         type:String,

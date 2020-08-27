@@ -17,8 +17,8 @@ var MENURESTSCHEMA = new mongoose.Schema({
         default: new Date()
     },
     foto_produc: {
-        type: Array, 
-        default: [],
+        type: String, 
+        default: ""
     },
     id_usuario_menu: {
         type: String,
