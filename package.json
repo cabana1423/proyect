@@ -6,6 +6,8 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
+    "@google-cloud/spanner": "^5.2.1",
+    "@google-cloud/storage": "^5.3.0",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
     "express": "~4.16.1",
@@ -15,7 +17,9 @@
     "map": "^1.0.1",
     "mongoose": "^5.9.26",
     "morgan": "~1.9.1",
+    "multer": "^1.4.2",
     "mustache": "^4.0.1",
+    "path": "^0.12.7",
     "pug": "2.0.0-beta11",
     "sha1": "^1.1.1"
   },
