@@ -1,6 +1,6 @@
 var express = require("express");
 var router = express.Router();
-var fileUpload = require("express-fileupload")
+//var fileUpload = require("express-fileupload")
 var sha1 = require("sha1");
 var REST = require("../database/restaurant");
 var IMGMENU = require("../database/img_menu");
