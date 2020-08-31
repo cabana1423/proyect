@@ -8,7 +8,7 @@ var restRouter = require('./routes/Restaurant');
 var menuRouter = require('./routes/MenuRest');
 var userRouter = require('./routes/User');
 var imgRouter = require('./routes/img_rest');
-var imgmenuRouter = require('./routes/Img_menu');
+var imgmenuRouter = require('./routes/img_menu');
 var pedidoRouter = require('./routes/Pedido');
 var facRouter = require('./routes/Facturas');
 
