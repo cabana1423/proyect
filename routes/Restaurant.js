@@ -23,8 +23,8 @@ router.get("/rest",midleware,  (req, res) => {
         var number = parseInt(data[1]);
         order[data[0]] = number;
     }
-    console.log(filter);
-    console.log(select);
+    //console.log(filter);
+    //console.log(select);
     var restDB=REST.find(filter).
     select(select).
     sort(order);

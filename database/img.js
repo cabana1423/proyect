@@ -1,10 +1,10 @@
 var mongoose = require("./connect");
 var IMGSCHEMA = new mongoose.Schema({
-    nombre: {
+    name: {
         type: String,
         required: [true, "El Nombre es necesario"]
     },
-    pathfile: {
+    url: {
         type: String,
         required: [true, "El la ruta del archivo es necesario"]
     },

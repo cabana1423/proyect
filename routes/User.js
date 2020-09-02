@@ -56,13 +56,7 @@ router.post("/user", async(req, res) => {
   var userDB = new USER(obj);
   userDB.save((err, docs) => {
       if (err) {
-          var errors = err.errors;
-          var keys = Object.keys(errors);
-          var msn = {};
-          for (var i = 0; i < keys.length; i++) {
-              msn[keys[i]] = errors[keys[i]].message;
-          }
-          res.status(500).json(msn);
+          res.status(300).json(err);
           return;
       }
       res.status(200).json(docs);

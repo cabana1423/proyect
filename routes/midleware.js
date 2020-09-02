@@ -14,7 +14,7 @@ var midleware=async(req,res, next)=>{
         return;
     }
     var iduser=decoded.data;
-    console.log(iduser);  
+    //console.log(iduser);  
     var docs =await USER.findOne({_id: iduser});
     if(docs==null){
         res.status(403).json({error: " no tiene acceso a este lugar usuario no existe"});

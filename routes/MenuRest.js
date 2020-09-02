@@ -1,6 +1,5 @@
 var express = require("express");
 var router = express.Router();
-var fileUpload = require("express-fileupload")
 var sha1 = require("sha1");
 var MENUREST = require("../database/menuRest");
 var REST = require("../database/restaurant");
@@ -63,7 +62,7 @@ router.post("/menu",midleware, async(req, res) => {
         return;
     }
     var docs = await IMGMENU.find({_id:idim, id_rest_img: id});
-    console.log(docs);
+    //console.log(docs);
     if (docs.length ==1) {
         obj["foto_produc"] = docs[0].id;
     }else{

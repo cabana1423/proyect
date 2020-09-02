@@ -1,6 +1,5 @@
-[] controlar tamaño de imagen
-[]controlar tipo de archivo
-[]que no hayga usuarios iguales
+[x] controlar tamaño de imagen
+[x]controlar tipo de archivo
+[x]que no hayga usuarios iguales
 []que el usuario solo pueda crear  restaurantes limitados
-[]usuario solo una imagen para un rest
-[]que se suba imagenes a la nube
+[x]subir imagenes a disco duro

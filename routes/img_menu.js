@@ -1,16 +1,32 @@
 var express = require("express");
 var router = express.Router();
-//var fileUpload = require("express-fileupload")
-var sha1 = require("sha1");
 var REST = require("../database/restaurant");
 var IMGMENU = require("../database/img_menu");
+const {Storage}=require('@google-cloud/storage');
+const Multer=require('multer');
+const path=require('path');
 var midleware=require("./midleware");
 
-/*router.use(fileUpload({
-    fileSize: 10 * 1024 * 1024
-}));*/
-//imagen de menu
-router.post("/imgmenu", midleware, async(req, res) => {
+const gc=new Storage({
+    keyFilename:path.join(__dirname,'../storage_cabana-proyect.json'),
+    projectId:'zippy-zenith-287722'
+});
+var maxSize = 5 * 1000 * 1000;
+const multer=Multer({
+    storage:Multer.memoryStorage(),
+    limits: { fileSize: maxSize },
+    fileFilter: function(req, file, cb) {
+        if (file.mimetype !== 'image/png' && file.mimetype !== 'image/gif' && file.mimetype !== 'image/jpeg'&&file.mimetype !== 'image/jpg') 
+        {
+            return cb(null, false);
+        } else {
+            cb(null, true);
+        }
+    }
+});
+const bucket=gc.bucket(process.env.GCLOUD_STORAGE_BUCKET||'bucket_proyect_menu');
+
+router.post("/imgmenu", midleware,multer.single('img'), async(req, res) => {
     var params = req.query;
     if (params.id == null) {
         res.status(300).json({msn: "El id es necesario"});
@@ -24,43 +40,43 @@ router.post("/imgmenu", midleware, async(req, res) => {
         res.status(300).json({msn: "El restaurante no existe"});
         return;
     }
-    //console.log(idrest);
-    var img = req.files.file;
-    console.log(img);
-    var path = __dirname.replace(/\/routes/g, "/img_menu");
-    var date = new Date();
-    var sing  = sha1(date.toString()).substr(1, 5);
-    var totalpath = path + "/" + sing + "_" + img.name.replace(/\s/g,"_");
-    img.mv(totalpath, async(err) => {
-        if (err) {
-            return res.status(300).send({msn : "Error al escribir el archivo en el disco duro"});
-        }
-        var obj = {};
-        if (img.name != null) {
-            obj["nombre"] = img.name;
-        }
-        obj["pathfile"] = totalpath;
-        obj["id_rest_img"] = idrest;
-        var image = new IMGMENU(obj);
-        image.save((err, docs) => {
-            if (err) {
-                res.status(500).json({msn: "ERROR  AL GUARDAR INFORMACION "})
-                return;
-            }
-            res.status(200).json({name: img.name});
-        });
+    //upload
+    if(!req.file){
+        res.status(400).json({message:'no se envio ningun archivos'});
+    }
+    var obj={};
+    const blob=bucket.file(req.file.originalname);
+    const blobStream=blob.createWriteStream({
+      resumable:false
     });
+
+    blobStream.on('error',(err)=>{
+      res.json({message:err});
+    });
+
+    blobStream.on('finish',async()=>{
+      let url='https://storage.googleapis.com/'+bucket.name+'/'+blob.name;
+      obj["id_rest_img"] = idrest;
+      obj["url"] = url;
+      obj["name"] = blob.name;
+      const ins=new IMGMENU(obj);
+      await ins.save();
+      res.json({message:url});
+    });
+
+    blobStream.end(req.file.buffer);
 });
 router.get("/imgmenu", midleware, async(req, res, next)=>{
     var params=req.query;
-    if(params==null){
+    if(params.id==null){
         res.status(300).json({msn: "error es necesario una ID"});
         return;
     }
     var idimg = params.id ;
     var imagen=await IMGMENU.find({_id: idimg});
     if(imagen.length==1){
-        var path=imagen[0].pathfile;
+        var path=imagen[0].url;
+        console.log(path);
         res.sendFile(path);
         return;
     }
@@ -68,30 +84,34 @@ router.get("/imgmenu", midleware, async(req, res, next)=>{
     return;
 });
 
-router.put("/imgmenu",midleware,  async(req, res) => {
+router.put("/imgmenu",midleware,multer.single('img'), async(req, res) => {
     var params = req.query;
-    var obj = {};
     if (params.id == null) {
         res.status(300).json({msn: "El parámetro ID imagen es necesario"});
         return;
     }
-    var img = req.files.file;
-    var path = __dirname.replace(/\/routes/g, "/img");
-    var date = new Date();
-    var sing  = sha1(date.toString()).substr(1, 5);
-    var totalpath = path + "/" + sing + "_" + img.name.replace(/\s/g,"_");
-    img.mv(totalpath, (err) => {
-        if (err) {
-            return res.status(300).send({msn : "Error al escribir el archivo en el disco duro"});
-        }
+    if(!req.file){
+        res.status(400).json({message:'no se envio ningun archivos'});
+    }
+    const blob=bucket.file(req.file.originalname);
+    const blobStream=blob.createWriteStream({
+      resumable:false
     });
-    IMGMENU.update({_id:  params.id}, {$set: {"nombre":img.name,"pathfile":totalpath}}, (err, docs) => {
-       if (err) {
-           res.status(500).json({msn: "Existen problemas en la base de datos"});
-            return;
-        } 
-        res.status(200).json(docs);
+
+    blobStream.on('error',(err)=>{
+      res.json({message:err});
     });
+    blobStream.on('finish',async()=>{
+        let url='https://storage.googleapis.com/'+bucket.name+'/'+blob.name;
+        IMGMENU.update({_id:  params.id}, {$set: {"name":blob.name,"url":url}}, (err, docs) => {
+            if (err) {
+                res.status(500).json({msn: "Existen problemas al actualizar los base de datos"});
+                 return;
+             } 
+             res.status(200).json(docs);
+         });
+    });
+    blobStream.end(req.file.buffer);
 
 });
 router.delete("/imgmenu",midleware,  (req, res) => {

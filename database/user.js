@@ -12,7 +12,8 @@ var USERSCHEMA = new mongoose.Schema({
                 return /^[\w\.]+@[\w\.]+\.\w{3,3}$/.test(value);
             },
             message: props => `${props.value} no es valido` 
-        }
+        },
+        unique:[true, "ya existe este correp registrado"]
         
     },
     password: {
