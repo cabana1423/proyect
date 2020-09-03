@@ -59,7 +59,7 @@ router.post("/user", async(req, res) => {
           res.status(300).json(err);
           return;
       }
-      res.status(200).json(docs);
+      res.json(docs);
       return;
   });
 });

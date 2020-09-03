@@ -1,6 +1,6 @@
 var express = require("express");
 var router = express.Router();
-var sha1 = require("sha1");
+//var sha1 = require("sha1");
 var FACTURA = require("../database/factura");
 var PEDIDO = require("../database/pedido");
 var midleware=require("./midleware");

@@ -46,11 +46,15 @@ router.post("/rest", midleware, async(req, res) => {
              return;
     }
     var id = params.id;
-    var docs = await USER.find({_id: id});
-    if (docs.length ==0) {
+    var user = await USER.find({_id: id});
+    if (user.length ==0) {
         res.status(300).json({msn: "El usuario no existe"});
         return;
-    }//id img
+    }
+    if(user[0].limite>=5){
+        res.status(300).json({msn: "El usuario ya exedio la creacion del numero de restaurantes"});
+        return;
+    }
     if (params.idi == null) {
         res.status(300).json({msn: "El id imagen es necesario"});
              return;
@@ -67,7 +71,8 @@ router.post("/rest", midleware, async(req, res) => {
     obj["id_user_rest"] = id;
     obj["foto_lugar"] = docimg[0].id;
     var userDB = new REST(obj);
-    userDB.save((err, docs) => {
+    //console.log(adicion);
+    userDB.save(async(err, docs) => {
         if (err) {
             var errors = err.errors;
             var keys = Object.keys(errors);
@@ -79,8 +84,10 @@ router.post("/rest", midleware, async(req, res) => {
             return;
         }
         res.status(200).json(docs);
-        return;
+        var adicion=user[0].limite+1;
+        await USER.update({_id: id}, {$set: {"limite": adicion}});
     });
+    
 });
 //PUT actualizar
 router.put("/rest", midleware, async(req, res) => {
@@ -108,18 +115,22 @@ router.put("/rest", midleware, async(req, res) => {
 
 });
 //DELETE 
-router.delete("/rest",midleware,  (req, res) => {
+router.delete("/rest",midleware,  async(req, res) => {
     var params = req.query;
     if (params.id == null) {
         res.status(300).json({msn: "El parámetro ID es necesario"});
         return;
     }
-    REST.remove({_id: params.id}, (err, docs) => {
+    var rest=await REST.find({_id:params.id});
+    var user=await USER.find({_id:rest[0].id_user_rest});
+    REST.remove({_id: params.id}, async(err, docs) => {
         if (err) {
             res.status(500).json({msn: "Existen problemas en la base de datos"});
              return;
          } 
          res.status(200).json(docs);
+         await USER.update({_id: user[0].id}, {$set: {"limite": user[0].limite-1}});
     });
+    
 });
 module.exports = router;

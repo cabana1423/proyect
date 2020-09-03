@@ -1,6 +1,5 @@
 var express = require("express");
 var router = express.Router();
-var sha1 = require("sha1");
 var MENUREST = require("../database/menuRest");
 var REST = require("../database/restaurant");
 var IMGMENU = require("../database/img_menu");

@@ -28,6 +28,10 @@ var USERSCHEMA = new mongoose.Schema({
         type: Array,
         default:[]
     },
+    limite:{
+        type:Number,
+        default:0 
+    }
     /*tipo: {
         type: String,
         required: [true, "El tipo de usuario es necesario"]
