@@ -69,7 +69,7 @@ router.post("/rest", midleware, async(req, res) => {
     var obj = {};
     obj = req.body;
     obj["id_user_rest"] = id;
-    obj["foto_lugar"] = docimg[0].id;
+    obj["foto_lugar"] = docimg[0].url;
     var userDB = new REST(obj);
     //console.log(adicion);
     userDB.save(async(err, docs) => {

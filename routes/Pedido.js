@@ -56,7 +56,7 @@ router.post("/order",midleware, async(req, res) => {
         obj["idUser_ped"] = id_u;
     }
     else{
-        res.status(300).json({msn: "El menu no existe"});
+        res.status(300).json({msn: "El user no existe"});
         return;
     }
     var id = params.id;
