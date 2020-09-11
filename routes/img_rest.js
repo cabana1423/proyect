@@ -47,6 +47,7 @@ router.post("/restimg",midleware, multer.single('img'), async(req, res) => {
     if(!req.file){
         res.status(400).json({message:'no se envio ningun archivos'});
     }
+    console.log(req.file);
     var obj={};
     const blob=bucket.file(req.file.originalname);
     const blobStream=blob.createWriteStream({
