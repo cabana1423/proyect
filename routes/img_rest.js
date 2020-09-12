@@ -29,10 +29,10 @@ var multer=Multer({
 
 const bucket=gc.bucket(process.env.GCLOUD_STORAGE_BUCKET||'bucket_proyect-rest');
 
-router.post("/restimg" ,multer.single('img'), async(req, res) => {
-    //var params = req.query;
+router.post("/restimg" ,midleware, multer.single('img'), async(req, res) => {
+    var params = req.query;
     //id user
-   /* if (params.id == null) {
+   if (params.id == null) {
         res.status(300).json({msn: "El id es necesario"});
              return;
     }
@@ -43,7 +43,7 @@ router.post("/restimg" ,multer.single('img'), async(req, res) => {
     }else{
         res.status(300).json({msn: "El usuario no existe"});
         return;
-    }*/
+    }
     if(!req.file){
         res.status(400).json({message:'no se envio ningun archivos'});
     }
@@ -60,7 +60,7 @@ router.post("/restimg" ,multer.single('img'), async(req, res) => {
 
     blobStream.on('finish',async()=>{
       let url='https://storage.googleapis.com/'+bucket.name+'/'+blob.name;
-      //obj["id_user_img"] = iduser;
+      obj["id_user_img"] = iduser;
       obj["url"] = url;
       obj["name"] = blob.name;
       const ins=new IMG(obj);
