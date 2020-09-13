@@ -65,7 +65,7 @@ router.post("/restimg" ,midleware, multer.single('img'), async(req, res) => {
       obj["name"] = blob.name;
       const ins=new IMG(obj);
       await ins.save();
-      res.json({message:url});
+      res.json({msn:url,id:_id});
     });
 
     blobStream.end(req.file.buffer);

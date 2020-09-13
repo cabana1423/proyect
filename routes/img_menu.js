@@ -15,14 +15,14 @@ var maxSize = 5 * 1000 * 1000;
 const multer=Multer({
     storage:Multer.memoryStorage(),
     limits: { fileSize: maxSize },
-    fileFilter: function(req, file, cb) {
+    /*fileFilter: function(req, file, cb) {
         if (file.mimetype !== 'image/png' && file.mimetype !== 'image/gif' && file.mimetype !== 'image/jpeg'&&file.mimetype !== 'image/jpg') 
         {
             return cb(null, false);
         } else {
             cb(null, true);
         }
-    }
+    }*/
 });
 const bucket=gc.bucket(process.env.GCLOUD_STORAGE_BUCKET||'bucket_proyect_menu');
 
@@ -51,7 +51,7 @@ router.post("/imgmenu", midleware,multer.single('img'), async(req, res) => {
     });
 
     blobStream.on('error',(err)=>{
-      res.json({message:err});
+      res.json({msn:err});
     });
 
     blobStream.on('finish',async()=>{
@@ -61,7 +61,7 @@ router.post("/imgmenu", midleware,multer.single('img'), async(req, res) => {
       obj["name"] = blob.name;
       const ins=new IMGMENU(obj);
       await ins.save();
-      res.json({message:url});
+      res.json({message:url,id:_id});
     });
 
     blobStream.end(req.file.buffer);
