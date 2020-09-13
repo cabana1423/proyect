@@ -79,7 +79,7 @@ router.post("/login", async(req, res) => {
             exp:Math.floor(Date.now()/1000)+(60*60*60),
             data:results[0].id
         }, 'PedroCabanaBautistaPotosiBolivia2020');
-        res.status(200).json({msn: "Bienvenido al sistema " + body.email + " :) ",token:token,id:id});
+        res.status(200).json({msn: "Bienvenido al sistema " + body.email + " :) ",token:token,id:results[0].id});
         return;
     }
     res.status(200).json({msn: "Credenciales incorrectas"});
