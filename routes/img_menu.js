@@ -61,7 +61,7 @@ router.post("/imgmenu", midleware,multer.single('img'), async(req, res) => {
       obj["name"] = blob.name;
       const ins=new IMGMENU(obj);
       await ins.save();
-      res.json({message:url,id:_id});
+      res.json({message:url,id:id});
     });
 
     blobStream.end(req.file.buffer);
