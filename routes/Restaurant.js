@@ -4,9 +4,20 @@ var REST = require("../database/restaurant");
 var USER = require("../database/user");
 var IMG = require("../database/img");
 var midleware=require("./midleware");
-
 //GET mostrar
-router.get("/rest",midleware,  (req, res) => {
+router.get("/myrest",midleware,  async(req, res) => {
+
+    var params= req.query;
+    var restid=await REST.find({_id:params.id_rest});
+    if(restid.length==1){
+        res.status(200).json(restid);
+    }
+    else{
+        res.status(500).json({msn: "Error en encontar Restaurant"});
+    }
+});
+
+router.get("/rest",midleware,  async(req, res) => {
     var filter={};
     var params= req.query;
     var select="";
@@ -14,18 +25,6 @@ router.get("/rest",midleware,  (req, res) => {
     if(params.nombre_rest!=null){
         var expresion =new RegExp(params.nombre_rest);
         filter["nombre_rest"]=expresion;
-    }
-    if(params.id_rest!=null){
-        var restid=REST.find({_id:params.id_rest});
-        restid.exec((err, docs)=>{
-            if(err){
-                res.status(500).json({msn: "Error en la coneccion del servidor"});
-                return;
-            }
-            res.status(200).json(docs);
-            return;
-        });
-        
     }
     if(params.id_us!=null){
         var expresion =new RegExp(params.id_us);
