@@ -17,7 +17,16 @@ router.get("/rest",midleware,  (req, res) => {
     }
     if(params.id_rest!=null){
         var expresion =new RegExp(params.id_rest);
-        filter[_id]=expresion;
+        var restid=REST.find({_id:expresion});
+        restid.exec((err, docs)=>{
+            if(err){
+                res.status(500).json({msn: "Error en la coneccion del servidor"});
+                return;
+            }
+            res.status(200).json(docs);
+            return;
+        });
+        
     }
     if(params.id_us!=null){
         var expresion =new RegExp(params.id_us);
@@ -31,8 +40,6 @@ router.get("/rest",midleware,  (req, res) => {
         var number = parseInt(data[1]);
         order[data[0]] = number;
     }
-    //console.log(filter);
-    //console.log(select);
     var restDB=REST.find(filter).
     select(select).
     sort(order);
