@@ -16,8 +16,16 @@ router.get("/menu",midleware, (req, res) => {
         filter["nombre_menu"]=expresion;
     }
     if(params.id_men!=null){
-        var expresion =new RegExp(params.id_men);
-        filter[_id]=expresion;
+        var restid=REST.find({_id:params.id_men});
+        restid.exec((err, docs)=>{
+            if(err){
+                res.status(500).json({msn: "Error en la coneccion del servidor"});
+                return;
+            }
+            res.status(200).json(docs);
+            return;
+        });
+        
     }
     if(params.id_us!=null){
         var expresion =new RegExp(params.id_us);
