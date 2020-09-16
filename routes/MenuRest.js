@@ -15,6 +15,18 @@ router.get("/menu",midleware, (req, res) => {
         var expresion =new RegExp(params.nombre_menu);
         filter["nombre_menu"]=expresion;
     }
+    if(params.id_men!=null){
+        var expresion =new RegExp(params.id_men);
+        filter["id"]=expresion;
+    }
+    if(params.id_us!=null){
+        var expresion =new RegExp(params.id_us);
+        filter["id_usuario_menu"]=expresion;
+    }
+    if(params.id_res!=null){
+        var expresion =new RegExp(params.id_res);
+        filter["id_rest_menu"]=expresion;
+    }
     if(params.filters!=null){
         select=params.filters.replace(/,/g, " ");
     }
