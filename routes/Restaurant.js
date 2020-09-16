@@ -16,8 +16,7 @@ router.get("/rest",midleware,  (req, res) => {
         filter["nombre_rest"]=expresion;
     }
     if(params.id_rest!=null){
-        var expresion =new RegExp(params.id_rest);
-        var restid=REST.find({_id:expresion});
+        var restid=REST.find({_id:params.id_rest});
         restid.exec((err, docs)=>{
             if(err){
                 res.status(500).json({msn: "Error en la coneccion del servidor"});
