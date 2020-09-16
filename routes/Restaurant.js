@@ -5,16 +5,18 @@ var USER = require("../database/user");
 var IMG = require("../database/img");
 var midleware=require("./midleware");
 //GET mostrar
-router.get("/myrest",midleware,  async(req, res) => {
+router.get("/myrest",midleware, (req, res) => {
 
     var params= req.query;
-    var restid=await REST.find({_id:params.id_rest});
-    if(restid.length==1){
-        res.status(200).json(restid);
-    }
-    else{
-        res.status(500).json({msn: "Error en encontar Restaurant"});
-    }
+    var restDB=REST.find({_id:params.id_rest});
+    restDB.exec((err, docs)=>{
+        if(err){
+            res.status(500).json({msn: "Error en la coneccion del servidor"});
+            return;
+        }
+        res.status(200).json(docs);
+        return;
+    });
 });
 
 router.get("/rest",midleware,  async(req, res) => {
