@@ -17,7 +17,7 @@ router.get("/rest",midleware,  (req, res) => {
     }
     if(params.id_rest!=null){
         var expresion =new RegExp(params.id_rest);
-        filter["id"]=expresion;
+        filter[_id]=expresion;
     }
     if(params.id_us!=null){
         var expresion =new RegExp(params.id_us);
