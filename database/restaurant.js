@@ -20,15 +20,15 @@ var REST_SCHEMA = new mongoose.Schema({
         type: Number,
         required: [true, "El telefono es necesario"]
     },
-    /*longitud: {
+    lat: {
         type: String, 
         required: [true, "falta log"]
     },
-    latitud: {
+    lon: {
         type: String, 
         required: [true, "falta lat"]
     },
-    logo: {
+    /*logo: {
         type: String, 
     },*/
     fecha_reg: {

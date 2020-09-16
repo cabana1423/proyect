@@ -15,6 +15,14 @@ router.get("/rest",midleware,  (req, res) => {
         var expresion =new RegExp(params.nombre_rest);
         filter["nombre_rest"]=expresion;
     }
+    if(params.id_rest!=null){
+        var expresion =new RegExp(params.id_rest);
+        filter["_id"]=expresion;
+    }
+    if(params.id_us!=null){
+        var expresion =new RegExp(params.id_us);
+        filter["id_user_rest"]=expresion;
+    }
     if(params.filters!=null){
         select=params.filters.replace(/,/g, " ");
     }
