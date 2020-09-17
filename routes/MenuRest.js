@@ -6,6 +6,19 @@ var IMGMENU = require("../database/img_menu");
 const USER = require("../database/user");
 var midleware=require("./midleware");
 //GET mostrar
+router.get("/mymenu",midleware, (req, res) => {
+
+    var params= req.query;
+    var restDB= MENUREST.find({_id:params.id_menu});
+    restDB.exec((err, docs)=>{
+        if(err){
+            res.status(500).json({msn: "Error en la coneccion del servidor"});
+            return;
+        }
+        res.status(200).json(docs);
+        return;
+    });
+});
 router.get("/menu",midleware, (req, res) => {
     var filter={};
     var params= req.query;
@@ -14,18 +27,6 @@ router.get("/menu",midleware, (req, res) => {
     if(params.nombre_menu!=null){
         var expresion =new RegExp(params.nombre_menu);
         filter["nombre_menu"]=expresion;
-    }
-    if(params.id_men!=null){
-        var restid=REST.find({_id:params.id_men});
-        restid.exec((err, docs)=>{
-            if(err){
-                res.status(500).json({msn: "Error en la coneccion del servidor"});
-                return;
-            }
-            res.status(200).json(docs);
-            return;
-        });
-        
     }
     if(params.id_us!=null){
         var expresion =new RegExp(params.id_us);
@@ -83,7 +84,7 @@ router.post("/menu",midleware, async(req, res) => {
     var docs = await IMGMENU.find({_id:idim, id_rest_img: id});
     //console.log(docs);
     if (docs.length ==1) {
-        obj["foto_produc"] = docs[0].id;
+        obj["foto_produc"] = docs[0].url;
     }else{
         res.status(300).json({msn: "La imagen no existe"});
         return;
