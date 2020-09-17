@@ -20,6 +20,10 @@ var MENURESTSCHEMA = new mongoose.Schema({
         type: String, 
         default: ""
     },
+    foto_id: {
+        type: String, 
+        default: ""
+    },
     id_usuario_menu: {
         type: String,
         required: [true, "el usuario es necesario"]

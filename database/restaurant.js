@@ -39,6 +39,10 @@ var REST_SCHEMA = new mongoose.Schema({
         type:String,
         default: ""
     },
+    foto_id: {
+        type:String,
+        default: ""
+    },
     id_user_rest: {
         type:String,
         required: [true, "El el ide del usuario es necesario"]
