@@ -113,7 +113,7 @@ router.put("/imgmenu",midleware,multer.single('img'), async(req, res) => {
                 res.status(500).json({msn: "Existen problemas al actualizar los base de datos"});
                  return;
              } 
-             res.status(200).json(docs);
+             res.status(200).json(docs,{id_imgm:params.id});
          });
     });
     blobStream.end(req.file.buffer);

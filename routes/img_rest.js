@@ -132,7 +132,7 @@ router.put("/restimg",midleware,multer.single('img'), async(req, res) => {
                 res.status(500).json({msn: "Existen problemas al ingresar los datos"});
                  return;
              } 
-             res.status(200).json(docs);
+             res.status(200).json(docs,{id_img:params.id});
          });
     });
     blobStream.end(req.file.buffer);
