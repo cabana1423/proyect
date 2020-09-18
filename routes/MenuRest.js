@@ -129,7 +129,7 @@ router.put("/menu", midleware, async(req, res) => {
            res.status(500).json({msn: "Existen problemas en la base de datos"});
             return;
         } 
-        res.status(200).json(docs);
+        res.status(200).json(docs,{id_rest:params.id});
     });
 
 });
