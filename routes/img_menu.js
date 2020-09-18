@@ -82,9 +82,7 @@ router.get("/imgmenu", midleware, async(req, res, next)=>{
     var idimg = params.id ;
     var imagen=await IMGMENU.find({_id: idimg});
     if(imagen.length==1){
-        var path=imagen[0].url;
-        console.log(path);
-        res.sendFile(path);
+        res.json(imagen[0]);
         return;
     }
     res.status(300).json({msn: "error en la peticion"});

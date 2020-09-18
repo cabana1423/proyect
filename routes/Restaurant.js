@@ -113,7 +113,7 @@ router.put("/rest", midleware, async(req, res) => {
         res.status(300).json({msn: "El parámetro ID es necesario"});
         return;
     }
-    var allowkeylist = ["nombre_rest", "nit", "propietario","calle","telefono"];
+    var allowkeylist = ["nombre_rest", "url", "propietario","calle","telefono,foto_id"];
     var keys = Object.keys(bodydata);
     var updateobjectdata = {};
     for (var i = 0; i < keys.length; i++) {
