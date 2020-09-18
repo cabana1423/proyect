@@ -86,9 +86,7 @@ router.get("/restimg",midleware, async(req, res, next)=>{
     var idimg = params.id ;
     var imagen=await IMG.find({_id: idimg});
     if(imagen.length==1){
-        var path=imagen[0].url;
-        res.sendFile(path);
-        return;
+        res.json(imagen[0]);
     }
     res.status(300).json({msn: "error en la peticion"});
     return;
