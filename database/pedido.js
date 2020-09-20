@@ -12,6 +12,14 @@ var PEDIDOCHEMA = new mongoose.Schema({
         type: String,
         required: [true, "El menu es necesario"],
     },
+    toker_order: {
+        type: String,
+        required: [true, "El toker es necesario"],
+    },
+    nombre_menu: {
+        type: String,
+        required: [true, "El toker es necesario"],
+    },
     cantidad: {
         type: String,
         required: [true, " la cantidad es necesario"]

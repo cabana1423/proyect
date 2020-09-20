@@ -13,7 +13,7 @@ router.get("/order",midleware, (req, res) => {
     var order = {};
     if(params.user!=null){
         var expresion =new RegExp(params.user);
-        filter["idUser_ped"]=expresion;
+        filter["toke_order"]=expresion;
     }
     if(params.filters!=null){
         select=params.filters.replace(/,/g, " ");
@@ -48,9 +48,10 @@ router.post("/order",midleware, async(req, res) => {
              return;
     }
     var id_u=params.id_u;
+    var Body=req.body;
     //de user
     var obj = {};
-    obj = req.body;
+    obj = Body;
     var docmenu = await USER.find({_id: id_u});
     if (docmenu.length ==1) {
         obj["idUser_ped"] = id_u;
@@ -66,6 +67,7 @@ router.post("/order",midleware, async(req, res) => {
     var docmenu = await MENUREST.find({_id: id});
     if (docmenu.length ==1) {
         obj["idMenu_ped"] = id;
+        obj["nombre_menu"] = docmenu[0].nombre_menu;
     }
     else{
         res.status(300).json({msn: "El menu no existe"});
