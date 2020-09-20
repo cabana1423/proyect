@@ -11,9 +11,18 @@ router.get("/order",midleware, (req, res) => {
     var params= req.query;
     var select="";
     var order = {};
+    if(params.toker!=null){
+        var expresion =new RegExp(params.toker);
+        filter["toker_order"]=expresion;
+    }
+    //idUser_ped
+    if(params.menu!=null){
+        var expresion =new RegExp(params.menu);
+        filter["idMenu_ped"]=expresion;
+    }
     if(params.user!=null){
         var expresion =new RegExp(params.user);
-        filter["toke_order"]=expresion;
+        filter["idUser_ped"]=expresion;
     }
     if(params.filters!=null){
         select=params.filters.replace(/,/g, " ");
