@@ -41,6 +41,7 @@ router.get("/order",midleware, (req, res) => {
             return;
         }
         res.status(200).json(docs);
+        console.log(docs);
         return;
     });
 });
