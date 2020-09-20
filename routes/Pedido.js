@@ -130,11 +130,11 @@ router.put("/order",midleware, async(req, res) => {
 //DELETE 
 router.delete("/order",midleware, (req, res) => {
     var params = req.query;
-    if (params.id == null) {
-        res.status(300).json({msn: "El parámetro ID pedido es necesario"});
+    if (params.toker == null) {
+        res.status(300).json({msn: "El parámetro codigo toker es necesario"});
         return;
     }
-    PEDIDO.remove({_id: params.id}, (err, docs) => {
+    PEDIDO.remove({toker_order: params.toker}, (err, docs) => {
         if (err) {
             res.status(500).json({msn: "Existen problemas en la base de datos"});
              return;
