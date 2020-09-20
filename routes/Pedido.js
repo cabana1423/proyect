@@ -41,7 +41,6 @@ router.get("/order",midleware, (req, res) => {
             return;
         }
         res.status(200).json(docs);
-        console.log(docs);
         return;
     });
 });
@@ -135,6 +134,24 @@ router.delete("/order",midleware, (req, res) => {
         return;
     }
     PEDIDO.remove({toker_order: params.toker}, (err, docs) => {
+        if (err) {
+            res.status(500).json({msn: "Existen problemas en la base de datos"});
+             return;
+         } 
+         res.status(200).json(docs);
+    });
+});
+router.delete("/unOrder",midleware, (req, res) => {
+    var params = req.query;
+    if (params.id == null) {
+        res.status(300).json({msn: "El parámetro id order es necesario"});
+        return;
+    }
+    if (params.toker == null) {
+        res.status(300).json({msn: "El parámetro codigo toker es necesario"});
+        return;
+    }
+    PEDIDO.remove({_id:params.id, toker_order: params.toker}, (err, docs) => {
         if (err) {
             res.status(500).json({msn: "Existen problemas en la base de datos"});
              return;
