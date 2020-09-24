@@ -36,7 +36,7 @@ router.get("/fac", midleware, (req, res) => {
     });
 });
 // POST registrar
-router.post("/fac", midleware, async(req, res) => {
+router.post("/fac", async(req, res) => {
     var params = req.query;
     var obj = {};
     obj=req.body;
