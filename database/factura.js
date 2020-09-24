@@ -15,6 +15,18 @@ var FACTURASCHEMA = new mongoose.Schema({
     fecha_reg: {
         type: Date,
         default: new Date()
+    },
+    toker: {
+        type: String,
+        required: [true, "necesario el toker"]
+    },
+    lati: {
+        type: String,
+        required: [true, "necesario el latitud"]
+    },
+    longi: {
+        type: String,
+        required: [true, "necesario longitud"]
     }
 });
 var FACTURA = mongoose.model("facturas", FACTURASCHEMA);

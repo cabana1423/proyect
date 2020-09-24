@@ -39,14 +39,19 @@ router.get("/fac", midleware, (req, res) => {
 router.post("/fac", midleware, async(req, res) => {
     var params = req.query;
     var obj = {};
+    obj=req.body;
     if (params.id == null) {
         res.status(300).json({msn: "El id usuario es necesario"});
              return;
     }
-    var id=params.id;
-    var docfac = await PEDIDO.find({idUser_ped: id});
+    if (params.toker == null) {
+        res.status(300).json({msn: "El id toker es necesario"});
+             return;
+    }
+    var docfac = await PEDIDO.find({idUser_ped: params.id,toker_order:params.toker});
     if (docfac.length >0) {
-        obj["idUser_fac"] = id;
+        obj["idUser_fac"] =params.id;
+        obj["toker"] =params.toker;
         obj["cuentas"] = docfac;
     }
     else{
