@@ -86,6 +86,8 @@ router.post("/menu",midleware, async(req, res) => {
     if (docs.length ==1) {
         obj["foto_produc"] = docs[0].url;
         obj["foto_id"] = docs[0].id;
+        obj["nombre_rest"] = docsrest[0].nombre_rest;
+        obj["url_rest"] = docsrest[0].url;
     }else{
         res.status(300).json({msn: "La imagen no existe"});
         return;

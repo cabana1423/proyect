@@ -16,6 +16,14 @@ var MENURESTSCHEMA = new mongoose.Schema({
         type: Date,
         default: new Date()
     },
+    nombre_rest: {
+            type: String, 
+            default: ""
+        },
+    url_rest: {
+            type: String, 
+            default: ""
+        },
     foto_produc: {
         type: String, 
         default: ""
