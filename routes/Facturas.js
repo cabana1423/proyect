@@ -15,6 +15,10 @@ router.get("/fac", midleware, (req, res) => {
         var expresion =new RegExp(params.user);
         filter["idUser_fac"]=expresion;
     }
+    if(params.toker!=null){
+        var expresion =new RegExp(params.toker);
+        filter["toker"]=expresion;
+    }
     if(params.filters!=null){
         select=params.filters.replace(/,/g, " ");
     }
