@@ -11,6 +11,7 @@ var imgRouter = require('./routes/img_rest');
 var imgmenuRouter = require('./routes/img_menu');
 var pedidoRouter = require('./routes/Pedido');
 var facRouter = require('./routes/Facturas');
+var TokenRouter = require('./routes/tokenFB');
 
 
 var app = express();
@@ -32,6 +33,7 @@ app.use('/api_v1.0', imgRouter);
 app.use('/api_v1.0', imgmenuRouter);
 app.use('/api_v1.0', pedidoRouter);
 app.use('/api_v1.0', facRouter);
+app.use('/api_v1.0', TokenRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
