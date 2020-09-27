@@ -92,7 +92,7 @@ router.get("/user",midleware, (req, res) => {
     var order = {};
     if(params.nombre_rest!=null){
         var expresion =new RegExp(params.nombre_rest);
-        filter["nombre_rest"]=expresion;
+        filter["nombre"]=expresion;
     }
     if(params.filters!=null){
         select=params.filters.replace(/,/g, " ");
@@ -116,6 +116,20 @@ router.get("/user",midleware, (req, res) => {
         return;
     });
 });
+router.get("/u_token",midleware, (req, res) => {
+
+    var params= req.query;
+    var user=USER.find({_id:params.id});
+    user.exec((err, docs)=>{
+        if(err){
+            res.status(500).json({msn: "Error en la coneccion del servidor"});
+            return;
+        }
+        res.status(200).json(docs);
+        return;
+    });
+});
+
 router.delete("/user",midleware, async(req, res) => {
     if (req.query.id == null) {
         res.status(300).json({
