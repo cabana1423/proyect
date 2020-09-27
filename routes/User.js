@@ -138,7 +138,7 @@ router.put("/user",midleware, async(req, res) => {
 
     }
     bodydata.password = sha1(bodydata.password);
-    var allowkeylist = ["nombre","password"];
+    var allowkeylist = ["nombre","password","tokenFB"];
     var keys = Object.keys(bodydata);
     var updateobjectdata = {};
     for (var i = 0; i < keys.length; i++) {

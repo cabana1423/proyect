@@ -2,7 +2,7 @@ const express=require("express");
 var router = express.Router();
 const notification=require("../notification.js");
 
-router.get("/one_user",(req,res)=>{
+router.get("/one_user",function(req,res){
     var params =req.body;
     res.json("sending notification one user");
     const data={
@@ -13,7 +13,7 @@ router.get("/one_user",(req,res)=>{
     notification.sendPushToOneUser(data);
 });
 
-router.get("/Topic",(req,res)=>{
+router.get("/Topic",function(req,res){
     var params =req.body;
     res.send("sending notification to a topic");
     const data={

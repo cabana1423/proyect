@@ -32,6 +32,11 @@ var USERSCHEMA = new mongoose.Schema({
         type:Number,
         default:0 
     }
+    ,
+    tokenFB:{
+        type:String,
+        default:"" ,
+    }
     /*tipo: {
         type: String,
         required: [true, "El tipo de usuario es necesario"]
