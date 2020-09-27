@@ -31,8 +31,7 @@ var USERSCHEMA = new mongoose.Schema({
     limite:{
         type:Number,
         default:0 
-    }
-    ,
+    },
     tokenFB:{
         type:String,
         default:"" ,
