@@ -19,7 +19,19 @@ router.get("/fac_cliente",midleware, (req, res) => {
         return;
     });
 });
+router.get("/facOne",midleware, (req, res) => {
 
+    var params= req.query;
+    var restDB=FACTURA.find({_id:params.id});
+    restDB.exec((err, docs)=>{
+        if(err){
+            res.status(500).json({msn: "Error en la coneccion del servidor"});
+            return;
+        }
+        res.status(200).json(docs);
+        return;
+    });
+});
 router.get("/fac", midleware, (req, res) => {
     var filter={};
     var params= req.query;
