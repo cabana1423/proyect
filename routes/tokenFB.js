@@ -1,27 +1,33 @@
-const express=require("express");
+var express = require('express');
 var router = express.Router();
-const notification=require("../notification.js");
+var config=require('../configFB');
 
-router.get("/one_user",function(req,res){
-    var params =req.body;
-    res.json("sending notification one user");
-    const data={
-        tokenId:"dgaXNSziPK8:APA91bH1CiMXFj83ypi-YvS_3hDs5Mh_H8ReaYsu_WxH_ooDw7_pRUj16Fo_RVDDOB69qT_9wfUP9rfSm_Qi9gZvto801oO7m1Cdd-CePfmfNe2-JaSuN2uKtBqo6hKB4fzbsvSMC4s7",
-        titulo:"haber",
-        mensaje:"adarle atomos"
-    }
-    notification.sendPushToOneUser(data);
-});
 
-router.get("/Topic",function(req,res){
-    var params =req.body;
-    res.send("sending notification to a topic");
-    const data={
-        topic:"test",
-        titulo:params.title,
-        mensaje:params.msg
-    }
-    notification.sendPushTotopic(data);
+const notification_options = {
+  priority: "high",
+  timeToLive: 60 * 60 * 24,
+};
+
+router.post("/sendFB", (req, res) => {
+  const registrationToken = req.body.token;
+  var titulo =req.body.title;
+  var msn =req.body.body;
+  const options = notification_options;
+  const message = {
+    notification: {
+      title: titulo,
+      body: msn,
+    },
+  };
+  config.admin
+    .messaging()
+    .sendToDevice(registrationToken, message, options)
+    .then((response) => {
+      res.status(200).send("Notification sent successfully");
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 });
 
 module.exports = router;

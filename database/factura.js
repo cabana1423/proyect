@@ -4,6 +4,10 @@ var FACTURASCHEMA = new mongoose.Schema({
         type: String,
         required: [true, "el usuario es necesario"]
     },
+    idUserRest_fac: {
+        type: String,
+        required: [true, "el usuario rest es necesario"]
+    },
     cuentas: {
         type: Array,
         default:[]

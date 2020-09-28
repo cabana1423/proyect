@@ -6,6 +6,20 @@ var PEDIDO = require("../database/pedido");
 var midleware=require("./midleware");
 
 //GET mostrar
+router.get("/fac_cliente",midleware, (req, res) => {
+
+    var params= req.query;
+    var restDB=FACTURA.find({idUser_fac:params.client});
+    restDB.exec((err, docs)=>{
+        if(err){
+            res.status(500).json({msn: "Error en la coneccion del servidor"});
+            return;
+        }
+        res.status(200).json(docs);
+        return;
+    });
+});
+
 router.get("/fac", midleware, (req, res) => {
     var filter={};
     var params= req.query;
@@ -13,7 +27,7 @@ router.get("/fac", midleware, (req, res) => {
     var order = {};
     if(params.user!=null){
         var expresion =new RegExp(params.user);
-        filter["idUser_fac"]=expresion;
+        filter["idUserRest_fac"]=expresion;
     }
     if(params.toker!=null){
         var expresion =new RegExp(params.toker);
