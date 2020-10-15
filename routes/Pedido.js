@@ -117,6 +117,9 @@ router.put("/order",midleware, async(req, res) => {
             updateobjectdata[keys[i]] = bodydata[keys[i]];
         }
     }
+    var docs = await PEDIDO.find({_id: params.id});
+    var precio=docs[0].pago_total/docs[0].cantidad;
+    updateobjectdata["pago_total"]=precio*bodydata.cantidad;
     PEDIDO.update({_id:  params.id}, {$set: updateobjectdata}, (err, docs) => {
        if (err) {
            res.status(500).json({msn: "Existen problemas en la base de datos"});

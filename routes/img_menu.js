@@ -24,7 +24,7 @@ const multer=Multer({
         }
     }*/
 });
-const bucket=gc.bucket(process.env.GCLOUD_STORAGE_BUCKET||'bucket_proyect_menu');
+const bucket=gc.bucket(process.env.GCLOUD_STORAGE_BUCKET||'menu_imgs_bucket');
 
 router.post("/imgmenu", midleware,multer.single('img'), async(req, res) => {
     var params = req.query;
